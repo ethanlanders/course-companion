@@ -1,0 +1,68 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Open+Sans:wght@300&family=Roboto:wght@100&family=Ubuntu:wght@300&display=swap" rel="stylesheet');
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    scroll-behavior: smooth;
+}
+
+
+
+
+
+
+/*Header Design Section*/
+.navbar a {
+    font-size: 1.7rem;
+    color: var(--text-color);
+    margin-left: 4rem;
+    transition: .2s;
+}
+
+.navbar a:hover,
+.navbar a.activate {
+    color: var(white)
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 9%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    /*backdrop-filter: blur(10px) saturate(70%);*/
+}
+
+
+
+
+
+
+
+
+
+
+/*Footer Design */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 2rem 9%;
+}
+
+.footer-text p{
+    font-size: 1.6rem;
+    color: var(--text-color);
+}
