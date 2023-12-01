@@ -78,11 +78,11 @@
 
 /*Footer Design */
 .footer {
+    padding-top: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    padding: 2rem 9%;
 }
 
 .footer-text p{
