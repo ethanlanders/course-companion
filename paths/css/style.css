@@ -109,13 +109,10 @@ body{
 /*Footer Design */
 .footer {
     padding-top: 100px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+    text-align: center;
 }
 
 .footer-text p{
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     color: var(--text-color);
 }
