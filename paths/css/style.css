@@ -14,6 +14,18 @@
 }
 
 
+body{
+    background-color: white; /*Place Holder for background color*/
+}
+
+
+
+
+
+
+
+
+
 .home {
     display: flex;
     justify-content: center;
@@ -64,7 +76,8 @@
     justify-content: space-between;
     align-items: center;
     z-index: 100;
-    backdrop-filter: blur(10px) saturate(70%);
+    background-color: #d2b48c;
+    /*backdrop-filter: blur(10px) saturate(70%);*/
 }
 
 
@@ -72,7 +85,24 @@
 
 
 
-
+.row {  
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE10 */
+    flex-wrap: wrap;
+}
+.side {
+    -ms-flex: 30%; /* IE10 */
+    flex: 30%;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+.main {   
+    -ms-flex: 70%; /* IE10 */
+    flex: 70%;
+    background-color: white;
+    padding: 20px;
+}
 
 
 
