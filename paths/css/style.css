@@ -74,7 +74,7 @@ body{
     font-size: 1.1rem;
   }
   
-  img {
+  .team img {
     width: 100%; /* Make the images take up the full width of the container */
     margin-bottom: 10px; /* Add some space between image and text */
   }
