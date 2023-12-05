@@ -49,6 +49,40 @@ body{
 
 
 
+/* BIO Section */
+.team {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px; /* Adjust the gap between grid items as needed */
+    justify-content: center; /* Center the grid items horizontally */
+    align-items: flex-start; /* Center the grid items vertically */
+  }
+  
+  .card {
+    background-color: #d2b48c;
+    padding: 10px;
+  }
+  
+  .Person {
+    width: 100%; /* Make each grid item take up the full width of the column */
+
+  }
+  
+  .container {
+    font-size: 1.1rem;
+  }
+  
+  img {
+    width: 100%; /* Make the images take up the full width of the container */
+    margin-bottom: 10px; /* Add some space between image and text */
+  }
+
+  h2{
+    margin:0;
+  }
+  
+
 
 
 
