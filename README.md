@@ -8,17 +8,10 @@ Professor Thomas J. Kennedy
 
 <br>
 Zachery Elledge
-
 Ivy Garrenton
-
 Alexji Gaston
-
 Jonathan Kastelan
-
 Ethan Landers
-
 Andrew Ruetzel
-
 Ray Saleh
-
 Vladislav Voscanean
