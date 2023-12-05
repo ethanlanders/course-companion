@@ -55,7 +55,7 @@ body{
 
 /*Header Design Section*/
 .navbar a {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     color: var(--text-color);
     margin-left: 4rem;
     transition: .2s;
@@ -71,9 +71,8 @@ body{
     top: 0;
     left: 0;
     width: 100%;
-    padding: 2rem 9%;
-    display: flex;
-    justify-content: space-between;
+    padding: 1.5rem;
+    display: center;
     align-items: center;
     z-index: 100;
     background-color: #d2b48c;
