@@ -1,17 +1,18 @@
-Team Gold, CS410 Professional Workforce Development
+Old Dominion University
 
-Old Dominion University, Fall 2023
+CS410 & CS411W
 
 Professor Thomas J. Kennedy
 
 <br>https://ethanlanders.github.io/TeamGoldCS410/
 
 <br>
-Zachery Elledge
-Ivy Garrenton
-Alexji Gaston
-Jonathan Kastelan
-Ethan Landers
-Andrew Ruetzel
-Ray Saleh
-Vladislav Voscanean
+# Team
+* Zachery Elledge
+* Ivy Garrenton
+* Alexji Gaston
+* Jonathan Kastelan
+* Ethan Landers
+* Andrew Ruetzel
+* Ray Saleh
+* Vladislav Voscanean
