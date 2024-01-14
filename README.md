@@ -1,12 +1,9 @@
-Old Dominion University
-
-CS410 & CS411W
+# CS410 and CS411W Team Gold - Old Dominion University
 
 Professor Thomas J. Kennedy
 
-<br>https://ethanlanders.github.io/TeamGoldCS410/
+[Team Website](https://ethanlanders.github.io/TeamGoldCS410/)
 
-<br>
 # Team
 * Zachery Elledge
 * Ivy Garrenton
