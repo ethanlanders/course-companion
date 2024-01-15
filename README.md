@@ -2,7 +2,7 @@
 
 Professor Thomas J. Kennedy
 
-[Team Website](https://ethanlanders.github.io/TeamGoldCS410/)
+[Team Website](https://ethanlanders.github.io/TeamGoldCS411W/)
 
 # Team
 * Zachery Elledge
