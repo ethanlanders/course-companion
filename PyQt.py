@@ -12,7 +12,7 @@ def read_and_analyze_file():
     # QFileDialog.getOpenFileName returns a tuple with path and filetype the underscore ignores the the returned filetype
     filepath, _ = QFileDialog.getOpenFileName(filter="Markdown Files (*.md);;All Files (*)")
     if filepath:
-        with open(filepath, encoding='utf-8') as f:
+        with open(filepath,'r', encoding='utf-8') as f:
             markdown_input = f.read()
 
         # Count how many words there are in input
@@ -41,7 +41,7 @@ def save_report():
     filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt);;All Files (*)")
     if filepath:  
         report = text.toPlainText()  # get text from the text widget
-        with open(filepath, encoding='utf-8') as file:
+        with open(filepath, 'w', encoding='utf-8') as file:
             file.write(report) 
       
 def styles():
