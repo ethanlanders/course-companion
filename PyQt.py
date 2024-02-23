@@ -5,20 +5,43 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import * 
 import re
 
+from section import MarkdownSection
+
 #function to wrap file analysis logic
 def read_and_analyze_file():
+    sections = []
+    current_heading = None
+    current_content = ""
+
     # Open a file dialog for the user to select a  file. File type is restricted to *.md and  All files, All Files (*).
     # 'filepath' is assigned to the path of the selected file. 
     # QFileDialog.getOpenFileName returns a tuple with path and filetype the underscore ignores the the returned filetype
     filepath, _ = QFileDialog.getOpenFileName(filter="Markdown Files (*.md);;All Files (*)")
     if filepath:
-        with open(filepath,'r', encoding='utf-8') as f:
-            markdown_input = f.read()
+        with open(filepath,'r', encoding='utf-8') as file:
+            markdown_input = file.read()
+            
+            for line in file:
+                if line.startswith("# "):
+                    # section = MarkdownSection(current_heading, 1, current_content)
+                    # sections.append(section)
+                    current_heading = line.strip("# \n")
+                else:
+                    current_content += line + '\n'
+
+                if current_heading is not None:
+                    section = MarkdownSection(current_heading, 1, current_content)
+                    sections.append(section)
+
+            for section in sections:
+                text.setText(f"{section}")
+
+
 
         # Count how many words there are in input
         words = markdown_input.split()
         word_count = len(words)
-        
+
         # Count how many sentences there are in input
         sentences = markdown_input.split('.')
         sentence_count = len(sentences)
@@ -27,7 +50,7 @@ def read_and_analyze_file():
         paragraphs = markdown_input.split('\n\n')
         paragraph_count = len(paragraphs)
 
-        # Regular expression to find  headers
+        # Regular expression to find headers
         header_pattern = r'^#+\s.*'
 
         # Find all headers 
