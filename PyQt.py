@@ -7,7 +7,7 @@ import re
 
 from section import MarkdownSection
 
-#function to wrap file analysis logic
+# function to wrap file analysis logic
 def read_and_analyze_file():
     sections = []
     current_heading = None
@@ -17,6 +17,8 @@ def read_and_analyze_file():
     # 'filepath' is assigned to the path of the selected file. 
     # QFileDialog.getOpenFileName returns a tuple with path and filetype the underscore ignores the the returned filetype
     filepath, _ = QFileDialog.getOpenFileName(filter="Markdown Files (*.md);;All Files (*)")
+    
+    # If a has been selected in the GUI...
     if filepath:
         
         '''
@@ -25,21 +27,37 @@ def read_and_analyze_file():
         list of Sections
         '''
         
+        # Write to output...
         with open(filepath,'r', encoding='utf-8') as file:
+            
+            # Inputted Markdown named to "markdown_input"
             markdown_input = file.read()
             
+            # For every line in the input file...
             for line in file:
+
+                # If the line starts with one hashtag, that line is a level one header
+                # and we must assign the string following the hashtag to the variable
+                # current_heading
                 if line.startswith("# "):
                     # section = MarkdownSection(current_heading, 1, current_content)
                     # sections.append(section)
                     current_heading = line.strip("# \n")
+                    print("Current Heading:  " + current_heading)
+
+                # If the line does not start with one hashtag, everything that follows will be assiged to
+                # the variable current_content (the raw content under the header)
                 else:
                     current_content += line + '\n'
 
+                # If on this line there is something assigned to current_heading (there is a header):
                 if current_heading is not None:
+                    # Create an instance of the identified section
                     section = MarkdownSection(current_heading, 1, current_content)
+                    # Append it to the list of Sections
                     sections.append(section)
 
+            # Output the identified section to the GUI
             for section in sections:
                 text.setText(f"{section}")
 
@@ -66,7 +84,8 @@ def read_and_analyze_file():
         # Display the report
         report = f"Words: {word_count}, \nSentences: {sentence_count}, \nParagraphs: {paragraph_count},\nHeaders: {headers}"
         text.setText(report) # displays the report in text 
-        
+
+
 def save_report():
     filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt);;All Files (*)")
     if filepath:  
