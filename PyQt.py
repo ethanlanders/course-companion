@@ -18,6 +18,13 @@ def read_and_analyze_file():
     # QFileDialog.getOpenFileName returns a tuple with path and filetype the underscore ignores the the returned filetype
     filepath, _ = QFileDialog.getOpenFileName(filter="Markdown Files (*.md);;All Files (*)")
     if filepath:
+        
+        '''
+        Read an inputted Markdown file, then every time a header is detected in the file,
+        create a Section instance (section.py class) and append that instance to the empty 
+        list of Sections
+        '''
+        
         with open(filepath,'r', encoding='utf-8') as file:
             markdown_input = file.read()
             
