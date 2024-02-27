@@ -10,6 +10,10 @@ class MarkdownSection:
         self.heading = heading
         self.heading_level = heading_level
         self.raw_content = raw_content
+        self.subsections = []  # List to hold subsections
+        
+
+        
 
     def word_count(self):
         return len(self.raw_content.split())
@@ -20,11 +24,23 @@ class MarkdownSection:
     def paragraph_count(self):
         return len(self.raw_content.strip().split('\n\n'))
 
+    def add_subsection(self, subsection):
+        self.subsections.append(subsection)
+        
+        
     # Print string of an instance of the class
     def __str__(self):
-        return (f"Level {self.heading_level} Header: {self.heading}\n"
-                f"Words: {self.word_count()}\n"
-                f"Sentences: {self.sentence_count()}\n"
-                f"Paragraphs: {self.paragraph_count()}\n\n")
-
+        # Creates a comma-separated string of subsection headings wrappend in parenthesese for the report
+        subsection_names = ', '.join(subsection.heading for subsection in self.subsections)
+        subsections_str = f" ({subsection_names})" if subsection_names else ""
+        
+        section_str = (f"Level {self.heading_level} Header: {self.heading}\n"
+                       f"Words: {self.word_count()}\n"
+                       f"Sentences: {self.sentence_count()}\n"
+                       f"Paragraphs: {self.paragraph_count()}\n"
+                       f"Subsections: {len(self.subsections)}{subsections_str}\n\n") #shows subsection count
+        # iterates through each subsection and appends name
+        for subsection in self.subsections:
+            section_str += subsection.__str__()
+        return section_str
         # return f"Header: {self.heading},\nHeading Level: {self.heading_level},\nRaw Content: {self.raw_content}"
