@@ -36,18 +36,20 @@ class MarkdownSection:
         
     # Print string of an instance of the class
     def __str__(self):
+        tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an 
         # Creates a comma-separated string of subsection headings wrappend in parenthesese for the report
-        subsection_names = ', '.join(subsection.heading for subsection in self.subsections)
-        subsections_str = f" ({subsection_names})" if subsection_names else ""
+        # subsection_names = ', '.join(subsection.heading for subsection in self.subsections)
+        # subsections_str = f" ({subsection_names})" if subsection_names else ""
         
-        section_str = (f"Level {self.heading_level} Header: {self.heading}\n"
-                       f"Words: {self.word_count()}\n"
-                       f"Sentences: {self.sentence_count()}\n"
-                       f"Paragraphs: {self.paragraph_count()}\n\n"
+        section_str = (f"{tab}Level {self.heading_level} Header: {self.heading}\n"
+                       f"{tab}Words: {self.word_count()}\n"
+                       f"{tab}Sentences: {self.sentence_count()}\n"
+                       f"{tab}Paragraphs: {self.paragraph_count()}\n\n"
         )
                     #    f"Subsections: {len(self.subsections)}{subsections_str}\n\n") #shows subsection count
         # iterates through each subsection and appends name
+         # Iterate through each subsection and recursively call __str__ with increased level
         # for subsection in self.subsections:
-        #     section_str += subsection.__str__()
+        #     section_str += subsection.__str__(level + 1)
         return section_str
         # return f"Header: {self.heading},\nHeading Level: {self.heading_level},\nRaw Content: {self.raw_content}"
