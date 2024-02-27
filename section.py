@@ -19,8 +19,8 @@ class MarkdownSection:
         return len(self.raw_content.split())
 
     def sentence_count(self):
-        #adding additional punctuations to better count sentences, with whitespace following
-        sentence_pattern = r'[.!?]\s+|\n'
+        #adding additional punctuations to better count sentences, with whitespace following or new line character
+        sentence_pattern = r'[.!?](\s+|$)'
         #condition prevent counting new lines as sentences
         return len(re.findall(sentence_pattern, self.raw_content)) if self.raw_content.strip() else 0
 
