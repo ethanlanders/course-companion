@@ -12,6 +12,7 @@ def read_and_analyze_file():
     sections = []
     current_heading = None
     current_content = ""
+    heading_level = 0 #keeping track of heading level
 
     # Open a file dialog for the user to select a  file. File type is restricted to *.md and  All files, All Files (*).
     # 'filepath' is assigned to the path of the selected file. 
@@ -31,59 +32,76 @@ def read_and_analyze_file():
         with open(filepath,'r', encoding='utf-8') as file:
             
             # Inputted Markdown named to "markdown_input"
-            markdown_input = file.read()
+            '''File read wasnt working here because .read() reads the entire file 
+            into a single string and puts the pointer at the end of the file so it cannot then
+            iterate over it. readlines () reads the file into a list of lines that can be iterated over.'''
+            markdown_input = file.readlines()
             
-            # For every line in the input file...
-            for line in file:
+         # For every line in the *markdown input...
+        for line in markdown_input:
 
-                # If the line starts with one hashtag, that line is a level one header
-                # and we must assign the string following the hashtag to the variable
-                # current_heading
-                if line.startswith("# "):
-                    # section = MarkdownSection(current_heading, 1, current_content)
-                    # sections.append(section)
-                    current_heading = line.strip("# \n")
-                    print("Current Heading:  " + current_heading)
+            # If the line starts with one hashtag, that line is a level one header
+            # and we must assign the string following the hashtag to the variable
+            # current_heading
+            if line.startswith("#"):  # "#" broadens the search for all headers, whereas "# "searches for only top level headers
+                #If there is a current heading, append the current section to the section list
+                if current_heading is not None:
+                    sections.append(MarkdownSection(current_heading, heading_level, current_content))
+                    current_content = "" # Reset the content for the next section.
+                # Count the number of "#" characters to determine the heading level.
+                heading_level = line.count("#")
+                # section = MarkdownSection(current_heading, 1, current_content)
+                # sections.append(section)
+                ''' We have to strip the "#" and newline characters to get an accurate heading text block'''
+                current_heading = line.strip("# \n")
+                # print("Current Heading:  " + current_heading)
+            else:
+                current_content += line
 
                 # If the line does not start with one hashtag, everything that follows will be assiged to
                 # the variable current_content (the raw content under the header)
-                else:
-                    current_content += line + '\n'
+                # else:
+                #     current_content += line + '\n'
 
-                # If on this line there is something assigned to current_heading (there is a header):
-                if current_heading is not None:
-                    # Create an instance of the identified section
-                    section = MarkdownSection(current_heading, 1, current_content)
-                    # Append it to the list of Sections
-                    sections.append(section)
+        # If on this line there is something assigned to current_heading (there is a header):
+        """after all lines have been processed, then check if there is a section is added  
+        Moved this outside of the main loop"""
+        if current_heading is not None:
+            #append the last section on the section list
+            sections.append(MarkdownSection(current_heading, heading_level, current_content))
+            # Append it to the list of Sections
+            # sections.append(section)
+        report = "" # initializes the variable to build the report string
 
-            # Output the identified section to the GUI
-            for section in sections:
-                text.setText(f"{section}")
+        # Output the identified section to the GUI
+        for section in sections:
+            # text.setText(f"{section}")
+            report += str(section) #converts each section to a string and appends it to the report
+        text.setText(report)
 
 
 
-        # Count how many words there are in input
-        words = markdown_input.split()
-        word_count = len(words)
+        # # Count how many words there are in input
+        # words = markdown_input.split()
+        # word_count = len(words)
 
-        # Count how many sentences there are in input
-        sentences = markdown_input.split('.')
-        sentence_count = len(sentences)
+        # # Count how many sentences there are in input
+        # sentences = markdown_input.split('.')
+        # sentence_count = len(sentences)
         
-        # Count how many paragraphs there are in input
-        paragraphs = markdown_input.split('\n\n')
-        paragraph_count = len(paragraphs)
+        # # Count how many paragraphs there are in input
+        # paragraphs = markdown_input.split('\n\n')
+        # paragraph_count = len(paragraphs)
 
-        # Regular expression to find headers
-        header_pattern = r'^#+\s.*'
+        # # Regular expression to find headers
+        # header_pattern = r'^#+\s.*'
 
-        # Find all headers 
-        headers = len(re.findall(header_pattern, markdown_input, re.MULTILINE))
+        # # Find all headers 
+        # headers = len(re.findall(header_pattern, markdown_input, re.MULTILINE))
 
-        # Display the report
-        report = f"Words: {word_count}, \nSentences: {sentence_count}, \nParagraphs: {paragraph_count},\nHeaders: {headers}"
-        text.setText(report) # displays the report in text 
+        # # Display the report
+        # report = f"Words: {word_count}, \nSentences: {sentence_count}, \nParagraphs: {paragraph_count},\nHeaders: {headers}"
+        # text.setText(report) # displays the report in text 
 
 
 def save_report():
