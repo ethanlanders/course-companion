@@ -3,7 +3,7 @@
   (7 level 2 headers contained in this level one header)
 * 
 """
-
+import re
 class MarkdownSection:
     # Initialize instance of class
     def __init__(self, heading, heading_level, raw_content):
@@ -19,11 +19,17 @@ class MarkdownSection:
         return len(self.raw_content.split())
 
     def sentence_count(self):
-        return len(self.raw_content.split('.'))
+        #adding additional punctuations to better count sentences, with whitespace following
+        sentence_pattern = r'[.!?]\s+|\n'
+        #condition prevent counting new lines as sentences
+        return len(re.findall(sentence_pattern, self.raw_content)) if self.raw_content.strip() else 0
 
     def paragraph_count(self):
-        return len(self.raw_content.strip().split('\n\n'))
-
+        # condition checks to see if p is empty after stripping new line characters, to avoid counting empty paragraph returns
+        paragraphs = [p for p in self.raw_content.split('\n\n') if p.strip()]
+        return len(paragraphs)
+    
+    
     def add_subsection(self, subsection):
         self.subsections.append(subsection)
         
