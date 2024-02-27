@@ -43,10 +43,11 @@ class MarkdownSection:
         section_str = (f"Level {self.heading_level} Header: {self.heading}\n"
                        f"Words: {self.word_count()}\n"
                        f"Sentences: {self.sentence_count()}\n"
-                       f"Paragraphs: {self.paragraph_count()}\n"
-                       f"Subsections: {len(self.subsections)}{subsections_str}\n\n") #shows subsection count
+                       f"Paragraphs: {self.paragraph_count()}\n\n"
+        )
+                    #    f"Subsections: {len(self.subsections)}{subsections_str}\n\n") #shows subsection count
         # iterates through each subsection and appends name
-        for subsection in self.subsections:
-            section_str += subsection.__str__()
+        # for subsection in self.subsections:
+        #     section_str += subsection.__str__()
         return section_str
         # return f"Header: {self.heading},\nHeading Level: {self.heading_level},\nRaw Content: {self.raw_content}"
