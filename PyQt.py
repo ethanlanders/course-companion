@@ -1,9 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QTextEdit, QLabel, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QTextEdit, QLabel, QFileDialog
 from PyQt5.QtWidgets import * 
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import * 
-import re
 
 from section import MarkdownSection
 
@@ -56,7 +55,7 @@ def read_and_analyze_file():
                 current_heading = line.strip("# \n")
                 # print("Current Heading:  " + current_heading)
             else:
-                current_content += line
+                current_content += line if line.strip() != '' else '\n\n'
 
                 # If the line does not start with one hashtag, everything that follows will be assiged to
                 # the variable current_content (the raw content under the header)
