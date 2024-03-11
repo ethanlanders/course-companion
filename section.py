@@ -41,10 +41,10 @@ class MarkdownSection:
         # subsection_names = ', '.join(subsection.heading for subsection in self.subsections)
         # subsections_str = f" ({subsection_names})" if subsection_names else ""
         
-        section_str = (f"{tab}Level {self.heading_level} Header: {self.heading}\n"
-                       f"{tab}Words: {self.word_count()}\n"
-                       f"{tab}Sentences: {self.sentence_count()}\n"
-                       f"{tab}Paragraphs: {self.paragraph_count()}\n\n"
+        section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
+                       f"{tab}* Words: {self.word_count()}\n"
+                       f"{tab}* Sentences: {self.sentence_count()}\n"
+                       f"{tab}* Paragraphs: {self.paragraph_count()}\n\n"
         )
                     #    f"Subsections: {len(self.subsections)}{subsections_str}\n\n") #shows subsection count
         # iterates through each subsection and appends name

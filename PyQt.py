@@ -78,31 +78,6 @@ def read_and_analyze_file():
             report += str(section) #converts each section to a string and appends it to the report
         text.setText(report)
 
-
-
-        # # Count how many words there are in input
-        # words = markdown_input.split()
-        # word_count = len(words)
-
-        # # Count how many sentences there are in input
-        # sentences = markdown_input.split('.')
-        # sentence_count = len(sentences)
-        
-        # # Count how many paragraphs there are in input
-        # paragraphs = markdown_input.split('\n\n')
-        # paragraph_count = len(paragraphs)
-
-        # # Regular expression to find headers
-        # header_pattern = r'^#+\s.*'
-
-        # # Find all headers 
-        # headers = len(re.findall(header_pattern, markdown_input, re.MULTILINE))
-
-        # # Display the report
-        # report = f"Words: {word_count}, \nSentences: {sentence_count}, \nParagraphs: {paragraph_count},\nHeaders: {headers}"
-        # text.setText(report) # displays the report in text 
-
-
 def save_report():
     filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt);;All Files (*)")
     if filepath:  
@@ -128,7 +103,7 @@ def styles():
     text.setStyleSheet("""
         QTextEdit {
             background-color: #1e1e1e; 
-            color: #c5947c;
+            color: #FFFFFF;
             font-size: 14px;
             
         }
