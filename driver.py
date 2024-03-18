@@ -6,6 +6,15 @@ from PyQt5.QtCore import *
 
 from section import MarkdownSection
 
+def filter_backslash_lines(markdown_input):
+    filtered_lines = []
+
+    for line in markdown_input:
+        if not line.startswith("\\"):
+            filtered_lines.append(line)
+        
+    return filtered_lines
+
 # Function to wrap file analysis logic
 def read_and_analyze_file():
     sections = []
@@ -36,8 +45,11 @@ def read_and_analyze_file():
             iterate over it. readlines () reads the file into a list of lines that can be iterated over.'''
             markdown_input = file.readlines()
             
+        # Filter out lines starting with a backslash
+        filtered_input = filter_backslash_lines(markdown_input)
+
          # For every line in the *markdown input...
-        for line in markdown_input:
+        for line in filtered_input:
 
             # If the line starts with one hashtag, that line is a level one header
             # and we must assign the string following the hashtag to the variable
@@ -66,12 +78,12 @@ def read_and_analyze_file():
 
         # Output the identified section to the GUI
         for section in sections:
-            report += str(section) #converts each section to a string and appends it to the report
+            report += str(section) # Converts each section to a string and appends it to the report
         text.setText(report)
 
 def save_report():
     filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt);;All Files (*)")
     if filepath:  
-        report = text.toPlainText()  # get text from the text widget
+        report = text.toPlainText()  # Get text from the text widget
         with open(filepath, 'w', encoding='utf-8') as file:
             file.write(report) 
