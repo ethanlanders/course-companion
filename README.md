@@ -1,4 +1,4 @@
-# CS410 and CS411W Team Gold - Old Dominion University
+# CS410/CS411W Team Gold - Old Dominion University
 
 Professor Thomas J. Kennedy
 

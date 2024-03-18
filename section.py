@@ -12,9 +12,6 @@ class MarkdownSection:
         self.raw_content = raw_content
         self.subsections = []  # List to hold subsections
         
-
-        
-
     def word_count(self):
         return len(self.raw_content.split())
 
@@ -28,7 +25,6 @@ class MarkdownSection:
         # condition checks to see if p is empty after stripping new line characters, to avoid counting empty paragraph returns
         paragraphs = [p for p in self.raw_content.split('\n\n') if p.strip()]
         return len(paragraphs)
-    
     
     def add_subsection(self, subsection):
         self.subsections.append(subsection)
