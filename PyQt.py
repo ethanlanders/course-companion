@@ -49,18 +49,11 @@ def read_and_analyze_file():
                     current_content = "" # Reset the content for the next section.
                 # Count the number of "#" characters to determine the heading level.
                 heading_level = line.count("#")
-                # section = MarkdownSection(current_heading, 1, current_content)
-                # sections.append(section)
                 ''' We have to strip the "#" and newline characters to get an accurate heading text block'''
                 current_heading = line.strip("# \n")
-                # print("Current Heading:  " + current_heading)
             else:
                 current_content += line if line.strip() != '' else '\n\n'
 
-                # If the line does not start with one hashtag, everything that follows will be assiged to
-                # the variable current_content (the raw content under the header)
-                # else:
-                #     current_content += line + '\n'
 
         # If on this line there is something assigned to current_heading (there is a header):
         """after all lines have been processed, then check if there is a section is added  
@@ -68,13 +61,11 @@ def read_and_analyze_file():
         if current_heading is not None:
             #append the last section on the section list
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
-            # Append it to the list of Sections
-            # sections.append(section)
+          
         report = "" # initializes the variable to build the report string
 
         # Output the identified section to the GUI
         for section in sections:
-            # text.setText(f"{section}")
             report += str(section) #converts each section to a string and appends it to the report
         text.setText(report)
 
@@ -150,9 +141,7 @@ main_layout.addWidget(label)
 text = QTextEdit() #allows for multi-line input or display
 main_layout.addWidget(text)
 
-# The buttons defaulted to vertical alignment, 
-# I wanted them to be side by side, 
-# so this adds a horizontal layout for the buttons
+# adds a horizontal layout to the vertical layout for the buttons
 button_layout = QHBoxLayout()
 
 
