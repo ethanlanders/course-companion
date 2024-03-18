@@ -29,6 +29,10 @@ class MarkdownSection:
         paragraphs = [p for p in self.raw_content.split('\n\n') if p.strip()]
         return len(paragraphs)
     
+    def inline_code_count(self):
+        # Regular expression to find inline code blocks
+        code_pattern = r'`[^`]+`'
+        return len(re.findall(code_pattern, self.raw_content))
     
     def add_subsection(self, subsection):
         self.subsections.append(subsection)
@@ -40,7 +44,7 @@ class MarkdownSection:
         section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
                        f"{tab}* Words: {self.word_count()}\n"
                        f"{tab}* Sentences: {self.sentence_count()}\n"
-                       f"{tab}* Paragraphs: {self.paragraph_count()}\n\n"
-        )
+                       f"{tab}* Paragraphs: {self.paragraph_count()}\n"
+                       f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n\n")
+
         return section_str
-        # return f"Header: {self.heading},\nHeading Level: {self.heading_level},\nRaw Content: {self.raw_content}"
