@@ -18,6 +18,8 @@ def read_and_analyze_file():
     # QFileDialog.getOpenFileName returns a tuple with path and filetype the underscore ignores the the returned filetype
     filepath, _ = QFileDialog.getOpenFileName(filter="Markdown Files (*.md);;All Files (*)")
     
+    # test
+    
     # If a has been selected in the GUI...
     if filepath:
         
