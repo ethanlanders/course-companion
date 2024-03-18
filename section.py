@@ -33,14 +33,24 @@ class MarkdownSection:
     def add_subsection(self, subsection):
         self.subsections.append(subsection)
         
-        
+    def italic_count(self): #Need to add italics for _underscore_ as well
+            # Regular expression to find italic markdown syntax
+            italic_pattern = r'\*([^*]+)\*'
+            # Find all matches of italic syntax in the markdown text
+            italic_matches = re.findall(italic_pattern, self.raw_content)
+            # Count the number of italic occurrences
+            num_italics = len(italic_matches)
+            return num_italics
+
     # Print string of an instance of the class
     def __str__(self):
         tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an         
         section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
                        f"{tab}* Words: {self.word_count()}\n"
                        f"{tab}* Sentences: {self.sentence_count()}\n"
-                       f"{tab}* Paragraphs: {self.paragraph_count()}\n\n"
+                       f"{tab}* Paragraphs: {self.paragraph_count()}\n"
+                       f"{tab}* Italics: {self.italic_count()}\n\n"
+
         )
         return section_str
         # return f"Header: {self.heading},\nHeading Level: {self.heading_level},\nRaw Content: {self.raw_content}"

@@ -10,6 +10,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi eros, maximus 
 * yes
 - no
 
+* test Italics 1 *
+* test Italics 2 *
+_ Test italics 3 _
+_ test italics 4 _
+
 [link](https://github.com)
 
 # Second Main Header
