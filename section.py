@@ -5,7 +5,7 @@
 """
 import re
 class MarkdownSection:
-    # Initialize instance of class
+    # Initialize instance of class 
     def __init__(self, heading, heading_level, raw_content):
         self.heading = heading
         self.heading_level = heading_level
