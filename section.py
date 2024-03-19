@@ -34,7 +34,24 @@ class MarkdownSection:
         self.subsections.append(subsection)
         self.header_total += 1
         
-
+    def italic_count(self): 
+            # Regular expression to find italic markdown syntax
+            italic_pattern = r'\*([^*]+)\*'
+            # Find all matches of italic syntax in the markdown text
+            italic_matches = re.findall(italic_pattern, self.raw_content)
+            # Count the number of italic occurrences
+            num_italics = len(italic_matches)
+            return num_italics
+    
+    def list_count(self):
+        # Regular expression to find list markdown syntax
+        list_pattern = r'(\n\s*[-+*]\s+.*)+'
+        # Find all matches of list syntax in the markdown text
+        list_matches = re.findall(list_pattern, self.raw_content)
+        # Count the number of list occurrences
+        num_lists = len(list_matches)
+        return num_lists
+    
     # Count the number of bold words
     def bold_word_count(self):
         bold_word_pattern = r'\*\*([^\*]*)\*\*'
@@ -57,7 +74,10 @@ class MarkdownSection:
                        f"{tab}* Words: {self.word_count()}\n"
                        f"{tab}* Bold Words: {self.bold_word_count()}\n"
                        f"{tab}* Sentences: {self.sentence_count()}\n"
-                       f"{tab}* Paragraphs: {self.paragraph_count()}\n\n"
+                       f"{tab}* Paragraphs: {self.paragraph_count()}\n"
+                       f"{tab}* Italics: {self.italic_count()}\n"
+                       f"{tab}* Lists: {self.list_count()}\n\n"
+
         )
         return section_str
         # return f"Header: {self.heading},\nHeading Level: {self.heading_level},\nRaw Content: {self.raw_content}"
