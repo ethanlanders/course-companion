@@ -1,4 +1,6 @@
 import sys
+import re # Import the regular expression module
+
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QTextEdit, QLabel, QFileDialog
 from PyQt5.QtWidgets import * 
 from PyQt5.QtGui import * 
@@ -6,6 +8,7 @@ from PyQt5.QtCore import *
 
 from section import MarkdownSection
 
+# Function to filter backslashes from Markdown input
 def filter_backslash_lines(markdown_input):
     filtered_lines = []
 
@@ -15,8 +18,29 @@ def filter_backslash_lines(markdown_input):
         
     return filtered_lines
 
+# Function to determine if a link is internal or external
+def is_internal_link(link):
+    return not link.startswith("http") # Check if the link does not start with "http"
+
+# Function to extract and analyze hyperlinks
+def analyze_hyperlinks(content):
+    internal_links = []
+    external_links = []
+
+    hyperlink_pattern = r'\[.*?\]\((.*?)\)'
+
+    links = re.findall(hyperlink_pattern, content)
+
+    for link in links:
+        if is_internal_link(link):
+            internal_links.append(link)
+        else:
+            external_links.append(link)
+
+    return internal_links, external_links
+
 # Function to wrap file analysis logic
-def read_and_analyze_file():
+def read_and_analyze_file(text):
     sections = []
     current_heading = None
     current_content = ""
@@ -73,17 +97,22 @@ def read_and_analyze_file():
         if current_heading is not None:
             #append the last section on the section list
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
-          
-        report = "" # initializes the variable to build the report string
+
+        with open(filepath, 'w', encoding='utf-8') as f:
+            for section in sections:
+                internal_links, external_links = analyze_hyperlinks(section.raw_content)
+                f.write("Internal Links in '{section.heading}': {internal_links}")
+                f.write("External Links in '{section.heading}': {external_links}")
 
         # Output the identified section to the GUI
+        report = "" # initializes the variable to build the report string
         for section in sections:
             report += str(section) # Converts each section to a string and appends it to the report
         text.setText(report)
 
-def save_report():
+def save_report(text):
     filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt);;All Files (*)")
     if filepath:  
         report = text.toPlainText()  # Get text from the text widget
-        with open(filepath, 'w', encoding='utf-8') as file:
-            file.write(report) 
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(report) 
