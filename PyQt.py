@@ -12,6 +12,7 @@ def read_and_analyze_file():
     current_heading = None
     current_content = ""
     heading_level = 0 #keeping track of heading level
+    heading_count = 0
 
     # Open a file dialog for the user to select a  file. File type is restricted to *.md and  All files, All Files (*).
     # 'filepath' is assigned to the path of the selected file. 
@@ -51,6 +52,7 @@ def read_and_analyze_file():
                 heading_level = line.count("#")
                 ''' We have to strip the "#" and newline characters to get an accurate heading text block'''
                 current_heading = line.strip("# \n")
+                heading_count += 1
             else:
                 current_content += line if line.strip() != '' else '\n\n'
 
@@ -61,8 +63,10 @@ def read_and_analyze_file():
         if current_heading is not None:
             #append the last section on the section list
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
-          
-        report = "" # initializes the variable to build the report string
+            for section in sections:
+                    section.header_count()
+        header_count_total = sum(section.header_total for section in sections)  
+        report = f"Total Number of Headers: {header_count_total}\n\n" 
 
         # Output the identified section to the GUI
         for section in sections:

@@ -9,11 +9,11 @@ class MarkdownSection:
     def __init__(self, heading, heading_level, raw_content):
         self.heading = heading
         self.heading_level = heading_level
+        #self.heading_count = self.header_count()
         self.raw_content = raw_content
         self.subsections = []  # List to hold subsections
-        
-
-        
+        self.bold_count = self.bold_word_count()
+        self.header_total = 1
 
     def word_count(self):
         return len(self.raw_content.split())
@@ -32,15 +32,33 @@ class MarkdownSection:
     
     def add_subsection(self, subsection):
         self.subsections.append(subsection)
+        self.header_total += 1
         
-        
+
+    # Count the number of bold words
+    def bold_word_count(self):
+        bold_word_pattern = r'\*\*([^\*]*)\*\*'
+        bold_words = re.findall(bold_word_pattern, self.raw_content)
+        bold_word_count = sum(len(word.split()) for word in bold_words)
+        return bold_word_count
+    
+
+    # Count the total number of headers
+    def header_count(self):
+        header_pattern = r'^#+\s'
+        header_count = len(re.findall(header_pattern, self.raw_content, flags=re.MULTILINE))
+        self.header_total += header_count
+        return header_count
+
     # Print string of an instance of the class
     def __str__(self):
-        tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an         
+        tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an      
         section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
                        f"{tab}* Words: {self.word_count()}\n"
+                       f"{tab}* Bold Words: {self.bold_word_count()}\n"
                        f"{tab}* Sentences: {self.sentence_count()}\n"
                        f"{tab}* Paragraphs: {self.paragraph_count()}\n\n"
         )
         return section_str
         # return f"Header: {self.heading},\nHeading Level: {self.heading_level},\nRaw Content: {self.raw_content}"
+    
