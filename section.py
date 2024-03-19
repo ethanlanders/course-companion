@@ -34,48 +34,54 @@ class MarkdownSection:
         code_pattern = r'`[^`]+`'
         return len(re.findall(code_pattern, self.raw_content))
     
-    def itemized_lists(self):
+    def list_count(self):
+        # Regular expression to find list markdown syntax
+        list_pattern = r'^(\s*)(\*|\+|-|\d+\.)\s+'
+        # Splitting content into lines to apply the pattern
         lines = self.raw_content.split('\n')
-        lists = []
-        current_list = 0  #current list's length
-
-        for line in lines:
-            # Looking for a list start marker
-            if re.match(r'^(\s*)(\*|\+|-|\d+\.)\s+', line):
-                if current_list == 0:
-                    #initialize new listlength as 1
-                    current_list = 1
-                else:
-                    # Increment the current list's length
-                    current_list += 1
-            else:
-                if current_list > 0:
-                    # If  current line not in a list add its length to the lists 
-                    # reset the current list length
-                    lists.append(current_list)
-                    current_list = 0
         
-        #check for open list
-        if current_list > 0:
-            lists.append(current_list)
+        lists=[]
+        current_list = 0
+        lists = []
+        # Count the number of list occurrences, and tracking list length
+        for line in lines:
+                if re.match(list_pattern, line):
+                    if current_list == 0:
+                        current_list = 1
+                    else:
+                        current_list += 1         
+                else:
+                    if current_list > 0:
+                        # If  current line not in a list add its length to the lists 
+                        # reset the current list length
+                        lists.append(current_list)
+                      
+                        current_list = 0
+         
         
     
-        return len(lists), lists
+        # Additional check to see if the last list in the document was counted
+        if current_list > 0:
+            lists.append(current_list)
+        num_lists=len(lists)
+            
+        return num_lists, lists
 
             
     # Print string of an instance of the class
     def __str__(self):
-        num_lists, list_lengths = self.itemized_lists()
+        num_lists, list_lengths = self.list_count()
         tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an         
         section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
                        f"{tab}* Words: {self.word_count()}\n"
                        f"{tab}* Sentences: {self.sentence_count()}\n"
                        f"{tab}* Paragraphs: {self.paragraph_count()}\n"
                        f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
-                       f"{tab}* Itemized Lists: {num_lists}\n")
-        # get the lengths of individual lists
+                       f"{tab}* Lists: {num_lists}\n")
+    
+        # Get the lengths of individual lists
         for i, length in enumerate(list_lengths, start=1):
             section_str += f"{tab}    Length of List {i}: {length}\n"
-
-
+        
         return section_str
+      
