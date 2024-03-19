@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import * 
 
-from section import MarkdownSection
+from section import *
 
 # Function to filter backslashes from Markdown input
 def filter_backslash_lines(markdown_input):
@@ -17,27 +17,6 @@ def filter_backslash_lines(markdown_input):
             filtered_lines.append(line)
         
     return filtered_lines
-
-# Function to determine if a link is internal or external
-def is_internal_link(link):
-    return not link.startswith("http") # Check if the link does not start with "http"
-
-# Function to extract and analyze hyperlinks
-def analyze_hyperlinks(content):
-    internal_links = []
-    external_links = []
-
-    hyperlink_pattern = r'\[.*?\]\((.*?)\)'
-
-    links = re.findall(hyperlink_pattern, content)
-
-    for link in links:
-        if is_internal_link(link):
-            internal_links.append(link)
-        else:
-            external_links.append(link)
-
-    return internal_links, external_links
 
 # Function to wrap file analysis logic
 def read_and_analyze_file():
@@ -99,17 +78,14 @@ def read_and_analyze_file():
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
 
         for section in sections:
-            internal_links, external_links = analyze_hyperlinks(section.raw_content)
-
-        # with open(filepath, 'w', encoding='utf-8') as f:
-        #     for section in sections:
-        #         f.write("Internal Links in '{section.heading}': {internal_links}\n")
-        #         f.write("External Links in '{section.heading}': {external_links}\n")
-
-        # Output the identified section to the GUI
-        report = "" # initializes the variable to build the report string
-        for section in sections:
-            report += str(section) # Converts each section to a string and appends it to the report
+            internal_links, external_links = section.analyze_hyperlinks()
+            
+        # Output the identified section to the GUI with newlines between each section
+        report = "" # Initialize the variable to build the report string
+        for i, section in enumerate(sections):
+            report += str(section) # Convert each section to a string and append it to the report
+            if i < len(sections) - 1:
+                report += '\n\n' # Add a newline between sections
         text.setText(report)
 
 def save_report():
