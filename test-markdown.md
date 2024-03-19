@@ -12,6 +12,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi eros, maximus 
 * yes
 - no
 
+* test Italics 1 *
+* test Italics 2 *
+
+###Under tests lists
+
+- item 1
+* item 2
+- item 3
+
+Test list 2
+
+- item 1
+- item 2
+- item 3
+ 
+
 [link](https://github.com)
 
 # Second Main Header
