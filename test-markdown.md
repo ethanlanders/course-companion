@@ -16,7 +16,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi eros, maximus 
 ###Under tests lists
 
 - item 1
-- item 2
+* item 2
 - item 3
 
 Test list 2
