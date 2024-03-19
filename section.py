@@ -42,7 +42,6 @@ class MarkdownSection:
             num_italics = len(italic_matches)
             return num_italics
    
-
     def list_count(self):
         # Regular expression to find list markdown syntax
         list_pattern = r'^(\s*)(\*|\+|-|\d+\.)\s+'
@@ -76,6 +75,26 @@ class MarkdownSection:
             
         return num_lists, lists
 
+    # Function to determine if a link is internal or external
+    def is_internal_link(self, link):
+        return not link.startswith("http") # Check if the link does not start with "http"
+
+    # Function to extract and analyze hyperlinks
+    def analyze_hyperlinks(self):
+        internal_links = []
+        external_links = []
+
+        hyperlink_pattern = r'\[.*?\]\((.*?)\)'
+
+        links = re.findall(hyperlink_pattern, self.raw_content)
+
+        for link in links:
+            if self.is_internal_link(link):
+                internal_links.append(link)
+            else:
+                external_links.append(link)
+
+        return internal_links, external_links
             
     # Print string of an instance of the class
     def __str__(self):
@@ -86,14 +105,14 @@ class MarkdownSection:
                        f"{tab}* Sentences: {self.sentence_count()}\n"
                        f"{tab}* Paragraphs: {self.paragraph_count()}\n"
                        f"{tab}* Italics: {self.italic_count()}\n"
-    
-                       f"{tab}* Paragraphs: {self.paragraph_count()}\n"
                        f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
                        f"{tab}* Lists: {num_lists}\n")
     
         # Get the lengths of individual lists
         for i, length in enumerate(list_lengths, start=1):
-            section_str += f"{tab}    Length of List {i}: {length}\n"
-        
+            section_str += f"{tab}   - Length of List {i}: {length}\n"
+
+        # f"Internal Links in '{self.heading}': {self.internal_links}\n"
+        # f"External Links in '{self.heading}': {self.external_links}\n"
+
         return section_str
-      
