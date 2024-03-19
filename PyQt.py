@@ -98,9 +98,11 @@ def read_and_analyze_file():
             #append the last section on the section list
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
 
+        for section in sections:
+            internal_links, external_links = analyze_hyperlinks(section.raw_content)
+
         # with open(filepath, 'w', encoding='utf-8') as f:
         #     for section in sections:
-        #         internal_links, external_links = analyze_hyperlinks(section.raw_content)
         #         f.write("Internal Links in '{section.heading}': {internal_links}\n")
         #         f.write("External Links in '{section.heading}': {external_links}\n")
 
