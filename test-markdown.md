@@ -12,8 +12,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi eros, maximus 
 
 * test Italics 1 *
 * test Italics 2 *
-_ Test italics 3 _
-_ test italics 4 _
 
 * list 1
 * list 2
