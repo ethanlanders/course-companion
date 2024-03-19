@@ -108,7 +108,7 @@ class MarkdownSection:
                        f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
                        f"{tab}* Lists: {num_lists}\n")
     
-        # Get the lengths of individual lists
+        # Get the lengths of individual lists 
         for i, length in enumerate(list_lengths, start=1):
             section_str += f"{tab}   - Length of List {i}: {length}\n"
 
