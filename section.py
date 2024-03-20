@@ -11,7 +11,8 @@ class MarkdownSection:
         self.heading_level = heading_level
         self.raw_content = raw_content
         self.subsections = []  # List to hold subsections
-        
+        self.header_total = 1
+
     def word_count(self):
         return len(self.raw_content.split())
 
@@ -30,17 +31,32 @@ class MarkdownSection:
         # Regular expression to find inline code blocks
         code_pattern = r'`[^`]+`'
         return len(re.findall(code_pattern, self.raw_content))
+    
     def add_subsection(self, subsection):
         self.subsections.append(subsection)
+        self.header_total += 1
         
+    # Count the number of bold words
+    def bold_count(self): 
+        bold_pattern = r'\*\*([^\*]+)\*\*'
+        bold_matches = re.findall(bold_pattern, self.raw_content)
+        bold_num = sum(len(word.split()) for word in bold_matches)
+        return bold_num
+
+    # Count the total number of headers
+    def header_count(self):
+        header_pattern = r'^#+\s.*'
+        header_num = re.findall(header_pattern, self.raw_content, flags=re.MULTILINE)
+        return len(header_num)
+    
     def italic_count(self): 
-            # Regular expression to find italic markdown syntax
-            italic_pattern = r'\*([^*]+)\*'
-            # Find all matches of italic syntax in the markdown text
-            italic_matches = re.findall(italic_pattern, self.raw_content)
-            # Count the number of italic occurrences
-            num_italics = len(italic_matches)
-            return num_italics
+        # Regular expression to find italic markdown syntax
+        italic_pattern = r'\*([^*]+)\*'
+        # Find all matches of italic syntax in the markdown text
+        italic_matches = re.findall(italic_pattern, self.raw_content)
+        # Count the number of italic occurrences
+        num_italics = len(italic_matches)
+        return num_italics
    
     def list_count(self):
         # Regular expression to find list markdown syntax
@@ -95,13 +111,14 @@ class MarkdownSection:
                 external_links.append(link)
 
         return internal_links, external_links
-            
+    
     # Print string of an instance of the class
     def __str__(self):
         num_lists, list_lengths = self.list_count()
         tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an         
         section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
                        f"{tab}* Words: {self.word_count()}\n"
+                       f"{tab}* Bold Words: {self.bold_count()}\n"
                        f"{tab}* Sentences: {self.sentence_count()}\n"
                        f"{tab}* Paragraphs: {self.paragraph_count()}\n"
                        f"{tab}* Italics: {self.italic_count()}\n"

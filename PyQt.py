@@ -24,6 +24,7 @@ def read_and_analyze_file():
     current_heading = None
     current_content = ""
     heading_level = 0 #keeping track of heading level
+    header_count_total = 0
 
     # Open a file dialog for the user to select a  file. File type is restricted to *.md and  All files, All Files (*).
     # 'filepath' is assigned to the path of the selected file. 
@@ -76,12 +77,17 @@ def read_and_analyze_file():
         if current_heading is not None:
             #append the last section on the section list
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
+        
+        # Header count
+        header_count_total = sum(section.header_total for section in sections)  
+        report = f"Total Number of Headers: {header_count_total}\n\n" 
 
+        # Output the identified section to the GUI
         for section in sections:
             internal_links, external_links = section.analyze_hyperlinks()
             
         # Output the identified section to the GUI with newlines between each section
-        report = "" # Initialize the variable to build the report string
+        report += "" # Initialize the variable to build the report string
         for i, section in enumerate(sections):
             report += str(section) # Convert each section to a string and append it to the report
             if i < len(sections) - 1:
