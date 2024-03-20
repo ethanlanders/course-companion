@@ -5,14 +5,12 @@
 """
 import re
 class MarkdownSection:
-    # Initialize instance of class
+    # Initialize instance of class 
     def __init__(self, heading, heading_level, raw_content):
         self.heading = heading
         self.heading_level = heading_level
-        #self.heading_count = self.header_count()
         self.raw_content = raw_content
         self.subsections = []  # List to hold subsections
-        self.bold_count = self.bold_word_count()
         self.header_total = 1
 
     def word_count(self):
@@ -29,56 +27,109 @@ class MarkdownSection:
         paragraphs = [p for p in self.raw_content.split('\n\n') if p.strip()]
         return len(paragraphs)
     
+    def inline_code_count(self):
+        # Regular expression to find inline code blocks
+        code_pattern = r'`[^`]+`'
+        return len(re.findall(code_pattern, self.raw_content))
     
     def add_subsection(self, subsection):
         self.subsections.append(subsection)
         self.header_total += 1
         
-    def italic_count(self): 
-            # Regular expression to find italic markdown syntax
-            italic_pattern = r'\*([^*]+)\*'
-            # Find all matches of italic syntax in the markdown text
-            italic_matches = re.findall(italic_pattern, self.raw_content)
-            # Count the number of italic occurrences
-            num_italics = len(italic_matches)
-            return num_italics
-    
-    def list_count(self):
-        # Regular expression to find list markdown syntax
-        list_pattern = r'(\n\s*[-+*]\s+.*)+'
-        # Find all matches of list syntax in the markdown text
-        list_matches = re.findall(list_pattern, self.raw_content)
-        # Count the number of list occurrences
-        num_lists = len(list_matches)
-        return num_lists
-    
     # Count the number of bold words
-    def bold_word_count(self):
-        bold_word_pattern = r'\*\*([^\*]*)\*\*'
-        bold_words = re.findall(bold_word_pattern, self.raw_content)
-        bold_word_count = sum(len(word.split()) for word in bold_words)
-        return bold_word_count
-    
+    def bold_count(self): 
+        bold_pattern = r'\*\*([^\*]+)\*\*'
+        bold_matches = re.findall(bold_pattern, self.raw_content)
+        bold_num = sum(len(word.split()) for word in bold_matches)
+        return bold_num
 
     # Count the total number of headers
     def header_count(self):
-        header_pattern = r'^#+\s'
-        header_count = len(re.findall(header_pattern, self.raw_content, flags=re.MULTILINE))
-        self.header_total += header_count
-        return header_count
+        header_pattern = r'^#+\s.*'
+        header_num = re.findall(header_pattern, self.raw_content, flags=re.MULTILINE)
+        return len(header_num)
+    
+    def italic_count(self): 
+        # Regular expression to find italic markdown syntax
+        italic_pattern = r'\*([^*]+)\*'
+        # Find all matches of italic syntax in the markdown text
+        italic_matches = re.findall(italic_pattern, self.raw_content)
+        # Count the number of italic occurrences
+        num_italics = len(italic_matches)
+        return num_italics
+   
+    def list_count(self):
+        # Regular expression to find list markdown syntax
+        list_pattern = r'^(\s*)(\*|\+|-|\d+\.)\s+'
+        # Splitting content into lines to apply the pattern
+        lines = self.raw_content.split('\n')
+        
+        lists=[]
+        current_list = 0
+        lists = []
+        # Count the number of list occurrences, and tracking list length
+        for line in lines:
+                if re.match(list_pattern, line):
+                    if current_list == 0:
+                        current_list = 1
+                    else:
+                        current_list += 1         
+                else:
+                    if current_list > 0:
+                        # If  current line not in a list add its length to the lists 
+                        # reset the current list length
+                        lists.append(current_list)
+                      
+                        current_list = 0
+         
+        
+    
+        # Additional check to see if the last list in the document was counted
+        if current_list > 0:
+            lists.append(current_list)
+        num_lists=len(lists)
+            
+        return num_lists, lists
 
+    # Function to determine if a link is internal or external
+    def is_internal_link(self, link):
+        return not link.startswith("http") # Check if the link does not start with "http"
+
+    # Function to extract and analyze hyperlinks
+    def analyze_hyperlinks(self):
+        internal_links = []
+        external_links = []
+
+        hyperlink_pattern = r'\[.*?\]\((.*?)\)'
+
+        links = re.findall(hyperlink_pattern, self.raw_content)
+
+        for link in links:
+            if self.is_internal_link(link):
+                internal_links.append(link)
+            else:
+                external_links.append(link)
+
+        return internal_links, external_links
+    
     # Print string of an instance of the class
     def __str__(self):
-        tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an      
+        num_lists, list_lengths = self.list_count()
+        tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an         
         section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
                        f"{tab}* Words: {self.word_count()}\n"
-                       f"{tab}* Bold Words: {self.bold_word_count()}\n"
+                       f"{tab}* Bold Words: {self.bold_count()}\n"
                        f"{tab}* Sentences: {self.sentence_count()}\n"
                        f"{tab}* Paragraphs: {self.paragraph_count()}\n"
                        f"{tab}* Italics: {self.italic_count()}\n"
-                       f"{tab}* Lists: {self.list_count()}\n\n"
-
-        )
-        return section_str
-        # return f"Header: {self.heading},\nHeading Level: {self.heading_level},\nRaw Content: {self.raw_content}"
+                       f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
+                       f"{tab}* Lists: {num_lists}\n")
     
+        # Get the lengths of individual lists
+        for i, length in enumerate(list_lengths, start=1):
+            section_str += f"{tab}   - Length of List {i}: {length}\n"
+
+        # f"Internal Links in '{self.heading}': {self.internal_links}\n"
+        # f"External Links in '{self.heading}': {self.external_links}\n"
+
+        return section_str
