@@ -1,5 +1,6 @@
 import sys
 import re # Import the regular expression module
+import os # Import the OS
 
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QTextEdit, QLabel, QFileDialog
 from PyQt5.QtWidgets import * 
@@ -25,12 +26,14 @@ def read_and_analyze_file():
     current_content = ""
     heading_level = 0 #keeping track of heading level
     header_count_total = 0
+    
 
     # Open a file dialog for the user to select a  file. File type is restricted to *.md and  All files, All Files (*).
     # 'filepath' is assigned to the path of the selected file. 
     # QFileDialog.getOpenFileName returns a tuple with path and filetype the underscore ignores the the returned filetype
     filepath, _ = QFileDialog.getOpenFileName(filter="Markdown Files (*.md);;All Files (*)")
-    
+    #file_path = filepath, _
+    file_path = os.path.basename(filepath)
     # If a has been selected in the GUI...
     if filepath:
         
@@ -61,7 +64,7 @@ def read_and_analyze_file():
             if line.startswith("#"):  # "#" broadens the search for all headers, whereas "# "searches for only top level headers
                 #If there is a current heading, append the current section to the section list
                 if current_heading is not None:
-                    sections.append(MarkdownSection(current_heading, heading_level, current_content))
+                    sections.append(MarkdownSection(current_heading, heading_level, current_content,))
                     current_content = "" # Reset the content for the next section.
                 # Count the number of "#" characters to determine the heading level.
                 heading_level = line.count("#")
@@ -88,8 +91,10 @@ def read_and_analyze_file():
             
         # Output the identified section to the GUI with newlines between each section
         report += "" # Initialize the variable to build the report string
+        report += str(file_path) + "\n\n" # Add the file name to the report
+        report += "-------------------------------\n"
         for i, section in enumerate(sections):
-            report += str(section) # Convert each section to a string and append it to the report
+            report +=str(section) # Convert each section to a string and append it to the report
             if i < len(sections) - 1:
                 report += '\n\n' # Add a newline between sections
         text.setText(report)
