@@ -42,7 +42,13 @@ class MarkdownSection:
         bold_matches = re.findall(bold_pattern, self.raw_content)
         bold_num = sum(len(word.split()) for word in bold_matches)
         return bold_num
-
+    
+    #Count the number of headers by level
+    def header_level_count(self):
+        header_pattern = r'^#+\s.*'
+        header_level_counter = [0] * 7
+        
+        
     # Count the total number of headers
     def header_count(self):
         header_pattern = r'^#+\s.*'
