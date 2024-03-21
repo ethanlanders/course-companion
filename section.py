@@ -60,9 +60,11 @@ class MarkdownSection:
         return num_italics
     
     def block_quote_count(self):
-        #
+        #Set up the regex fora block quote @auth ZE
         quote_pattern=r'^>+\s.*'
+        #Find all block quotes and count them @auth ZE
         quotes_num = re.findall(quote_pattern,self.raw_content, flags=re.MULTILINE)   
+        #return the number of block quotes.@auth ZE
         return len(quotes_num)
    
     def list_count(self):
