@@ -34,10 +34,10 @@ def read_and_analyze_file():
     filepath, _ = QFileDialog.getOpenFileName(filter="Markdown Files (*.md);;All Files (*)")
 
     #Option 1 prints the whole path.@auth ZE
-    #file_path = filepath, _
+    file_path = filepath, _
 
     # Option 2 just gives you the filename itself @auth ZE
-    file_path = os.path.basename(filepath)
+    file_name = os.path.basename(filepath)
 
 
     # If a has been selected in the GUI...
@@ -97,6 +97,8 @@ def read_and_analyze_file():
             
         # Output the identified section to the GUI with newlines between each section
         report += "" # Initialize the variable to build the report string
+        report += str(file_name) + "\n\n"
+        report += "-------------------------------\n"
         report += str(file_path) + "\n\n" # Add the file name to the report
         report += "-------------------------------\n"
         for i, section in enumerate(sections):
