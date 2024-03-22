@@ -12,6 +12,7 @@ class MarkdownSection:
         self.raw_content = raw_content
         self.subsections = []  # List to hold subsections
         self.header_total = 1
+        
 
     def word_count(self):
         return len(self.raw_content.split())
@@ -42,7 +43,8 @@ class MarkdownSection:
         bold_matches = re.findall(bold_pattern, self.raw_content)
         bold_num = sum(len(word.split()) for word in bold_matches)
         return bold_num
-
+        
+        
     # Count the total number of headers
     def header_count(self):
         header_pattern = r'^#+\s.*'
@@ -57,6 +59,14 @@ class MarkdownSection:
         # Count the number of italic occurrences
         num_italics = len(italic_matches)
         return num_italics
+    
+    def block_quote_count(self):
+        #Set up the regex fora block quote @auth ZE
+        quote_pattern=r'^>+\s.*'
+        #Find all block quotes and count them @auth ZE
+        quotes_num = re.findall(quote_pattern,self.raw_content, flags=re.MULTILINE)   
+        #return the number of block quotes.@auth ZE
+        return len(quotes_num)
    
     def list_count(self):
         # Regular expression to find list markdown syntax
@@ -123,7 +133,9 @@ class MarkdownSection:
                        f"{tab}* Paragraphs: {self.paragraph_count()}\n"
                        f"{tab}* Italics: {self.italic_count()}\n"
                        f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
+                       f"{tab}* Block Quotes: {self.block_quote_count()}\n"
                        f"{tab}* Lists: {num_lists}\n")
+                       
     
         # Get the lengths of individual lists 
         for i, length in enumerate(list_lengths, start=1):
