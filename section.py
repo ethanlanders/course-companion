@@ -126,6 +126,10 @@ class MarkdownSection:
     def __str__(self):
         num_lists, list_lengths = self.list_count()
         tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an         
+        
+        # Analyze hyperlinks
+        internal_links, external_links = self.analyze_hyperlinks()
+        
         section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
                        f"{tab}* Words: {self.word_count()}\n"
                        f"{tab}* Bold Words: {self.bold_count()}\n"
@@ -134,10 +138,12 @@ class MarkdownSection:
                        f"{tab}* Italics: {self.italic_count()}\n"
                        f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
                        f"{tab}* Block Quotes: {self.block_quote_count()}\n"
+                       f"{tab}* Internal Links: {'None' if not internal_links else internal_links}\n"    
+                       f"{tab}* External Links: {'None' if not external_links else external_links}\n"
                        f"{tab}* Lists: {num_lists}\n")
                        
     
-        # Get the lengths of individual lists 
+        # Get the lengths of individual lists
         for i, length in enumerate(list_lengths, start=1):
             section_str += f"{tab}   - Length of List {i}: {length}\n"
 
