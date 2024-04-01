@@ -25,9 +25,7 @@ def read_and_analyze_file():
     current_heading = None
     current_content = ""
     heading_level = 0 #keeping track of heading level
-    header_count_total = 0
-    
-
+    heading_level_count = [0]*7 #Keeps a count of heading levels
     # Open a file dialog for the user to select a  file. File type is restricted to *.md and  All files, All Files (*).
     # 'filepath' is assigned to the path of the selected file. 
     # QFileDialog.getOpenFileName returns a tuple with path and filetype the underscore ignores the the returned filetype
@@ -74,6 +72,7 @@ def read_and_analyze_file():
                     current_content = "" # Reset the content for the next section.
                 # Count the number of "#" characters to determine the heading level.
                 heading_level = line.count("#")
+                heading_level_count[heading_level-1] += 1
                 ''' We have to strip the "#" and newline characters to get an accurate heading text block'''
                 current_heading = line.strip("# \n")
             else:
@@ -106,7 +105,12 @@ def read_and_analyze_file():
             if i < len(sections) - 1:
                 report += '\n\n' # Add a newline between sections
         text.setText(report)
+        report += str(section) #converts each section to a string and appends it to the report
 
+        for i in range(len(heading_level_count)):
+            report += f'Heading level {i+1} : {heading_level_count[i]}\n'
+        
+        text.setText(report)
 def save_report():
     filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt);;All Files (*)")
     if filepath:  
