@@ -122,18 +122,87 @@ class MarkdownSection:
 
         return internal_links, external_links
     
+
+
+    #functions below this line are check functions to make sure values are less than a certain number
+    # Function that checks if word_count is greater than x
+    def word_count_check(self):
+        if self.word_count() < 100:
+            return self.word_count()
+        else:
+            return "This section is long!"
+        
+    # function that checks if bold count is less than x
+    def bold_count_check(self):
+        if self.bold_count() < 2:
+            return self.bold_count()
+        else:
+            return "This section has a lot of bolded words!"
+        
+    # function that checks if sentence count is less than x
+    def sentence_count_check(self):
+        if self.sentence_count() < 2:
+            return self.sentence_count()
+        else:
+            return "This section has to many sentences!"
+
+    # function that checks paragraph count is less than x
+    def paragraph_count_check(self):
+        if self.paragraph_count() < 2:
+            return self.paragraph_count()
+        else:
+            return "This section has to many paragraphs!"
+        
+    # Function that checks itatlics count is less than x
+    def italic_count_check(self):
+        if self.italic_count() < 2:
+            return self.italic_count()
+        else:
+            return "This section has to many italicized words!"
+        
+    #function that checks inline code blocks are less than x
+    def inline_code_count_check(self):
+        if self.inline_code_count() < 1:
+            return self.inline_code_count()
+        else:
+            return "This section has to many inline code blocks!"
+        
+    #function that checks block quotes are less than x
+    def block_quote_count_check(self):
+        if self.block_quote_count() < 1:
+            return self.block_quote_count()
+        else:
+            return "This section has to many block quotes!"
+        
+    #function that checks list count is less than 2
+    def list_count_check(self):
+        num_lists, list_lengths = self.list_count()
+        if self.num_lists() < 2:
+            return self.num_lists(),self.list_length
+        else:
+            return "This section has to many lists!"
+        
+    def list_length(self):
+        tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an         
+        num_lists, list_lengths = self.list_count()
+        for i, length in enumerate(list_lengths, start=1):
+            section_str +=f"{tab}   - Length of List {i}: {length}\n" 
+
+
+
+
     # Print string of an instance of the class
     def __str__(self):
         num_lists, list_lengths = self.list_count()
         tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an         
         section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
-                       f"{tab}* Words: {self.word_count()}\n"
-                       f"{tab}* Bold Words: {self.bold_count()}\n"
-                       f"{tab}* Sentences: {self.sentence_count()}\n"
-                       f"{tab}* Paragraphs: {self.paragraph_count()}\n"
-                       f"{tab}* Italics: {self.italic_count()}\n"
-                       f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
-                       f"{tab}* Block Quotes: {self.block_quote_count()}\n"
+                       f"{tab}* Words: {self.word_count_check()}\n"
+                       f"{tab}* Bold Words: {self.bold_count_check()}\n"
+                       f"{tab}* Sentences: {self.sentence_count_check()}\n"
+                       f"{tab}* Paragraphs: {self.paragraph_count_check()}\n"
+                       f"{tab}* Italics: {self.italic_count_check()}\n"
+                       f"{tab}* Inline Code Blocks: {self.inline_code_count_check()}\n"
+                       f"{tab}* Block Quotes: {self.block_quote_count_check()}\n"
                        f"{tab}* Lists: {num_lists}\n")
                        
     
