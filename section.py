@@ -4,6 +4,8 @@
 * 
 """
 import re
+import statistics
+
 class MarkdownSection:
     # Initialize instance of class 
     def __init__(self, heading, heading_level, raw_content):
@@ -100,7 +102,11 @@ class MarkdownSection:
         num_lists=len(lists)
             
         return num_lists, lists
-
+    
+    #Function to balance out the word count
+    def balance_word_counts(sections):
+        total_words = sum(sections.values())
+        
     # Function to determine if a link is internal or external
     def is_internal_link(self, link):
         return not link.startswith("http") # Check if the link does not start with "http"
