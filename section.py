@@ -127,49 +127,49 @@ class MarkdownSection:
     #functions below this line are check functions to make sure values are less than a certain number
     # Function that checks if word_count is greater than x
     def word_count_check(self):
-        if self.word_count() < 100:
+        if self.word_count() < 250:
             return self.word_count()
         else:
             return "This section is long!"
         
     # function that checks if bold count is less than x
     def bold_count_check(self):
-        if self.bold_count() < 2:
+        if self.bold_count() < 50:
             return self.bold_count()
         else:
             return "This section has a lot of bolded words!"
         
     # function that checks if sentence count is less than x
     def sentence_count_check(self):
-        if self.sentence_count() < 2:
+        if self.sentence_count() < 50:
             return self.sentence_count()
         else:
             return "This section has to many sentences!"
 
     # function that checks paragraph count is less than x
     def paragraph_count_check(self):
-        if self.paragraph_count() < 2:
+        if self.paragraph_count() < 50:
             return self.paragraph_count()
         else:
             return "This section has to many paragraphs!"
         
     # Function that checks itatlics count is less than x
     def italic_count_check(self):
-        if self.italic_count() < 2:
+        if self.italic_count() < 50:
             return self.italic_count()
         else:
             return "This section has to many italicized words!"
         
     #function that checks inline code blocks are less than x
     def inline_code_count_check(self):
-        if self.inline_code_count() < 1:
+        if self.inline_code_count() < 50:
             return self.inline_code_count()
         else:
             return "This section has to many inline code blocks!"
         
     #function that checks block quotes are less than x
     def block_quote_count_check(self):
-        if self.block_quote_count() < 1:
+        if self.block_quote_count() < 50:
             return self.block_quote_count()
         else:
             return "This section has to many block quotes!"
