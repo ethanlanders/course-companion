@@ -37,7 +37,6 @@ def read_and_analyze_file():
     # Option 2 just gives you the filename itself @auth ZE
     file_name = os.path.basename(filepath)
 
-
     # If a has been selected in the GUI...
     if filepath:
         
