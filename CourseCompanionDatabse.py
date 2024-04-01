@@ -1,12 +1,17 @@
-from datetime import datetime
+import json
+import pickle
+import sys
+def retrieve_previous_report():
+
+    """
+    from datetime import datetime
 import sqlite3
 
-#Creating the Database for the CourseCompanion
+
 sqliteConnection = sqlite3.connect('CourseCompanion.db')
 
 cursor = sqliteConnection.cursor()
 
-#Creating tables (Needs further discussion)
 
 materials_table = ''' CREATE TABLE MATERIALS(
     Material_id INT NOT NULL,
@@ -29,3 +34,4 @@ reports_table = ''' CREATE TABLE REPORTS(
     entry_id INT,
 )
 '''
+    """
