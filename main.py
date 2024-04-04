@@ -86,8 +86,12 @@ def read_and_analyze_file():
         gui.text.setText(report)
 
     #create a text file for the repository
-    time = str(datetime.datetime.now())[:10].replace("/","-")
-    repo_file = "repository-"+ file_name + "-" + time + ".txt"
+    file_count = 1
+    for path in os.listdir("./repository"):
+        if os.path.isfile(os.path.join("./repository" , path)):
+            file_count +=1
+    sn = str(file_count)
+    repo_file = "repository-"+ file_name + "-" + sn + ".txt"
     with open (os.path.join( "./repository", repo_file), 'w') as f:
         f.write(report)
 
