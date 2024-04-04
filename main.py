@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QFileDialog
 from gui import GUI
 from section import MarkdownSection
 import os
+import datetime
 
 
 # Function to filter backslashes from Markdown input
@@ -29,6 +30,16 @@ def read_and_analyze_file():
     # Option 2 just gives you the filename itself @auth ZE
     file_name = os.path.basename(filepath)
 
+    # Create a file Repository @auth ZE
+    repo = './repository'
+
+    if not os.path.exists(repo):
+        os.makedirs(repo)
+        print("Folder %s created." % repo)
+    else:
+        print("Folder already exists.")
+
+    
     # If a has been selected in the GUI...
     if filepath:
         '''
@@ -58,6 +69,7 @@ def read_and_analyze_file():
 
         header_count_total = sum(section.header_total for section in sections)
         report = f"Total Number of Headers: {header_count_total}\n\n"
+        f = f"Total Number of Headers: {header_count_total}\n\n"
         report += ""  # Initialize the variable to build the report string
         report += str(file_name) + "\n\n"
         report += "-------------------------------\n"
@@ -72,6 +84,13 @@ def read_and_analyze_file():
             report += f'Heading level {i+1} : {heading_level_count[i]}\n'
 
         gui.text.setText(report)
+
+    #create a text file for the repository
+    time = str(datetime.datetime.now())[:10].replace("/","-")
+    repo_file = "repository-"+ file_name + "-" + time + ".txt"
+    with open (os.path.join( "./repository", repo_file), 'w') as f:
+        f.write(report)
+
 
 def save_report():
     filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt);;All Files (*)")
