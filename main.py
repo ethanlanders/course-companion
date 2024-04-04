@@ -85,6 +85,7 @@ if __name__ == "__main__":
     gui = GUI()
     gui.select_button.clicked.connect(read_and_analyze_file)
     gui.save_button.clicked.connect(save_report)
-    gui.styles(gui.select_button, gui.save_button, gui.text)
+    gui.history_button.clicked.connect(save_report)
+    gui.styles()
     gui.show()
     sys.exit(app.exec_())
