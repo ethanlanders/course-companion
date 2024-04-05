@@ -11,6 +11,26 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi eros, maximus 
 
 `Here is some inline code`
 
+```python
+def say_hello():
+    print("Hello, World!")
+
+say_hello()
+```
+```public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+
+
+```
+fn main() {
+    println!("Hello, World!");
+}
+```
+
 * yes
 - no
 
@@ -47,10 +67,27 @@ Test list 2
 * At vero eos et accusamus et iusto odio dignissimos ducimus.
 * Et harum quidem rerum facilis est et expedita distinctio.
 
+```
+int main() {
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
+```
+```
+console.log("Hello, World!");
+```
+
+```
+fun main() {
+    println("Hello, World!")
+}
+```
+
 
 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 2. Vivamus lacinia odio vitae vestibulum vestibulum:
     1. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.
     2. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+
 
 > Three

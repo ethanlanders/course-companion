@@ -1,4 +1,6 @@
 import re
+from determine_language import CodeLanguageIdentifier
+
 
 class MarkdownSection:
     """
@@ -133,28 +135,57 @@ class MarkdownSection:
 
         return internal_links, external_links
     
+ 
+        
+
+    def analyze_code_blocks(self):
+        code_identifier = CodeLanguageIdentifier()
+        code_blocks = re.findall(r'```(.*?)```', self.raw_content, re.DOTALL)
+        code_languages = []
+
+        for block in code_blocks:
+            clean_block = block.strip()
+            identified_language = code_identifier.identify_language(clean_block)
+            code_languages.append(identified_language)
+
+        return code_blocks, code_languages
+
+        
     def __str__(self):
         """Generates/prints a string representation of the MarkdownSection object/instance."""
         num_lists, list_lengths = self.list_count()
-        tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an         
+        tab = '    ' * (self.heading_level - 1)  # This adds an indent for each level subsection to create an
         
         # Analyze hyperlinks
         internal_links, external_links = self.analyze_hyperlinks()
-        
+        code_blocks, code_languages = self.analyze_code_blocks()
         section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
-                       f"{tab}* Words: {self.word_count()}\n"
-                       f"{tab}* Bold Words: {self.bold_count()}\n"
-                       f"{tab}* Sentences: {self.sentence_count()}\n"
-                       f"{tab}* Paragraphs: {self.paragraph_count()}\n"
-                       f"{tab}* Italics: {self.italic_count()}\n"
-                       f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
-                       f"{tab}* Block Quotes: {self.block_quote_count()}\n"
-                       f"{tab}* Internal Links: {'None' if not internal_links else internal_links}\n"    
-                       f"{tab}* External Links: {'None' if not external_links else external_links}\n"
-                       f"{tab}* Lists: {num_lists}\n")
-                       
-        # Get the lengths of individual lists
+                    f"{tab}* Words: {self.word_count()}\n"
+                    f"{tab}* Bold Words: {self.bold_count()}\n"
+                    f"{tab}* Sentences: {self.sentence_count()}\n"
+                    f"{tab}* Paragraphs: {self.paragraph_count()}\n"
+                    f"{tab}* Italics: {self.italic_count()}\n"
+                    f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
+                    f"{tab}* Block Quotes: {self.block_quote_count()}\n"
+                    f"{tab}* Internal Links: {'None' if not internal_links else internal_links}\n"
+                    f"{tab}* External Links: {'None' if not external_links else external_links}\n"
+                    f"{tab}* Lists: {num_lists}\n")
+        
+        # adding individual list length
         for i, length in enumerate(list_lengths, start=1):
             section_str += f"{tab}   - Length of List {i}: {length}\n"
-
+        
+        section_str += f"{tab}* Code Blocks: {len(code_blocks)}\n"
+        
+        # adding code block languages
+        for i, language in enumerate(code_languages, start=1):
+            section_str += f"{tab}   - Code Block {i}: Language - {language}\n"
+        
         return section_str
+
+                       
+                       
+                       
+                       
+       
+    
