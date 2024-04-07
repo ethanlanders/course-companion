@@ -20,6 +20,8 @@ def read_and_analyze_file():
     sections = []
     current_heading = None
     current_content = ""
+    all_content = ""
+    all_word_count = 0
     heading_level = 0  
     heading_level_count = [0]*7  
     filepath, _ = QFileDialog.getOpenFileName(filter="Markdown Files (*.md);;All Files (*)")
@@ -53,6 +55,11 @@ def read_and_analyze_file():
         
         filtered_input = filter_backslash_lines(markdown_input)
 
+        for line in filtered_input:       # 
+            if not line.startswith("#"):
+                all_content += line if line.strip() != '' else '\n\n'
+        all_word_count =  len(all_content.split())
+
         for line in filtered_input:
             if line.startswith("#"):
                 if current_heading is not None:
@@ -70,6 +77,7 @@ def read_and_analyze_file():
         header_count_total = sum(section.header_total for section in sections)
         report = f"Total Number of Headers: {header_count_total}\n\n"
         f = f"Total Number of Headers: {header_count_total}\n\n"
+        report += f"Total Number of Words: {all_word_count}\n\n"
         report += ""  # Initialize the variable to build the report string
         report += str(file_name) + "\n\n"
         report += "-------------------------------\n"
