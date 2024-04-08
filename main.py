@@ -4,7 +4,37 @@ from gui import GUI
 from section import MarkdownSection
 import os
 import datetime
+import subprocess
 
+# Pandoc file type conversion
+def filetype_convert(md_input):
+    filetype = os.path.splitext(md_input)[-1].lower()
+    
+    accepted_types = { #dict
+        '.docx': 'docx',
+        '.html': 'html',
+        '.txt': 'markdown'
+        #Add future filetypes here 
+        #Refer to pandoc github readme
+    }
+    
+    file_formats = accepted_types.get(filetype)
+    if file_formats is None:
+        raise ValueError(f'Invalid file type {filetype}')
+    
+    try: 
+        result = subprocess.run(['pandoc', '--from', file_formats, '--to', 'markdown',
+                                 md_input], capture_output = True, text = True)
+        converted_markdown = result.stdout
+        return converted_markdown
+    
+    #Error processing
+    except FileNotFoundError:
+        print("Pandoc execution failed: Is pandoc installed? Try 'pandoc --version'") 
+    except Exception as error:
+        print(f"Error. File {md_input} failed due to: {error}")
+        return None
+    
 
 # Function to filter backslashes from Markdown input
 def filter_backslash_lines(markdown_input):
@@ -24,7 +54,9 @@ def read_and_analyze_file():
     all_word_count = 0
     heading_level = 0  
     heading_level_count = [0]*7  
-    filepath, _ = QFileDialog.getOpenFileName(filter="Markdown Files (*.md);;All Files (*)")
+    
+    filepath, _ = QFileDialog.getOpenFileName(
+        filter="Supported Files (*.txt *.md *.docx *.html *.rtf)")
 
     # Option 1 prints the whole path.@auth ZE
     file_path = filepath, _
@@ -39,17 +71,32 @@ def read_and_analyze_file():
         print("Folder %s created." % repo)
     else:
         print("Folder already exists.")
-    
-    # If a has been selected in the GUI...
+
+    # If a file has been selected in the GUI...
     if filepath:
         '''
         Read an inputted Markdown file, then every time a header is detected in the file,
         create a Section instance (section.py class) and append that instance to the empty 
         list of Sections
         '''
-        
-        with open(filepath, 'r', encoding='utf-8') as file:
-            markdown_input = file.readlines()
+        markdown_output = os.path.splitext(filepath)[0] + '_converted.md'
+
+        #If the file is NOT markdown
+        if not filepath.endswith('.md'):
+            try:
+                converted_markdown = filetype_convert(filepath)
+                if converted_markdown is None:    
+                    return
+            
+                markdown_input = converted_markdown.splitlines()
+    
+            except ValueError as error:
+                print(error)
+                return 
+
+        else: 
+            with open(filepath, 'r', encoding='utf-8') as file:
+                markdown_input = file.readlines()
         
         filtered_input = filter_backslash_lines(markdown_input)
 
@@ -99,7 +146,7 @@ def read_and_analyze_file():
 
 
 def save_report():
-    filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt);;All Files (*)")
+    filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt)")
     if filepath:  
         report = gui.text.toPlainText()  # Get text from the text widget
         with open(filepath, 'w', encoding='utf-8') as f:
