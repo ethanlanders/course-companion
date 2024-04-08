@@ -26,5 +26,5 @@ Educators often face challenges in meeting the individual needs of students. Due
 
 ## How To Run Software
 There are two ways to run the software:
-* Run the command `python -u PyQt.py` in the terminal, making sure to include the path to PyQt.py in the command in place of "PyQt.py"
-* Click the run button within your IDE while the file PyQT.py is selected
+* Run the command `python -u main.py` in the terminal, making sure to include the path to main.py in the command in place of "PyQt.py".
+* Click the run button within your IDE while the file mile.py is selected and open.

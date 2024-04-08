@@ -3,7 +3,38 @@ from PyQt5.QtWidgets import QApplication, QFileDialog
 from gui import GUI
 from section import MarkdownSection
 import os
+import datetime
+import subprocess
 
+# Pandoc file type conversion
+def filetype_convert(md_input):
+    filetype = os.path.splitext(md_input)[-1].lower()
+    
+    accepted_types = { #dict
+        '.docx': 'docx',
+        '.html': 'html',
+        '.txt': 'markdown'
+        #Add future filetypes here 
+        #Refer to pandoc github readme
+    }
+    
+    file_formats = accepted_types.get(filetype)
+    if file_formats is None:
+        raise ValueError(f'Invalid file type {filetype}')
+    
+    try: 
+        result = subprocess.run(['pandoc', '--from', file_formats, '--to', 'markdown',
+                                 md_input], capture_output = True, text = True)
+        converted_markdown = result.stdout
+        return converted_markdown
+    
+    #Error processing
+    except FileNotFoundError:
+        print("Pandoc execution failed: Is pandoc installed? Try 'pandoc --version'") 
+    except Exception as error:
+        print(f"Error. File {md_input} failed due to: {error}")
+        return None
+    
 
 # Function to filter backslashes from Markdown input
 def filter_backslash_lines(markdown_input):
@@ -19,9 +50,13 @@ def read_and_analyze_file():
     sections = []
     current_heading = None
     current_content = ""
+    all_content = ""
+    all_word_count = 0
     heading_level = 0  
     heading_level_count = [0]*7  
-    filepath, _ = QFileDialog.getOpenFileName(filter="Markdown Files (*.md);;All Files (*)")
+    
+    filepath, _ = QFileDialog.getOpenFileName(
+        filter="Supported Files (*.txt *.md *.docx *.html *.rtf)")
 
     # Option 1 prints the whole path.@auth ZE
     file_path = filepath, _
@@ -29,18 +64,46 @@ def read_and_analyze_file():
     # Option 2 just gives you the filename itself @auth ZE
     file_name = os.path.basename(filepath)
 
-    # If a has been selected in the GUI...
+    # Create a file Repository @auth ZE
+    repo = './repository'
+    if not os.path.exists(repo):
+        os.makedirs(repo)
+        print("Folder %s created." % repo)
+    else:
+        print("Folder already exists.")
+
+    # If a file has been selected in the GUI...
     if filepath:
         '''
         Read an inputted Markdown file, then every time a header is detected in the file,
         create a Section instance (section.py class) and append that instance to the empty 
         list of Sections
         '''
-        
-        with open(filepath, 'r', encoding='utf-8') as file:
-            markdown_input = file.readlines()
+        markdown_output = os.path.splitext(filepath)[0] + '_converted.md'
+
+        #If the file is NOT markdown
+        if not filepath.endswith('.md'):
+            try:
+                converted_markdown = filetype_convert(filepath)
+                if converted_markdown is None:    
+                    return
+            
+                markdown_input = converted_markdown.splitlines()
+    
+            except ValueError as error:
+                print(error)
+                return 
+
+        else: 
+            with open(filepath, 'r', encoding='utf-8') as file:
+                markdown_input = file.readlines()
         
         filtered_input = filter_backslash_lines(markdown_input)
+
+        for line in filtered_input:       # 
+            if not line.startswith("#"):
+                all_content += line if line.strip() != '' else '\n\n'
+        all_word_count =  len(all_content.split())
 
         for line in filtered_input:
             if line.startswith("#"):
@@ -57,12 +120,10 @@ def read_and_analyze_file():
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
 
         header_count_total = sum(section.header_total for section in sections)
-        report = f"Total Number of Headers: {header_count_total}\n\n"
-        report += ""  # Initialize the variable to build the report string
-        report += str(file_name) + "\n\n"
-        report += "-------------------------------\n"
-        report += str(file_path) + "\n\n"  # Add the file name to the report
-        report += "-------------------------------\n"
+        report = f"File Name: {file_name}\n\n"
+        report += f"Total Number of Headers: {header_count_total}\n\n"
+        report += f"Total Number of Words: {all_word_count}\n\n"
+        report += "-------------------------------\n\n"
         for i, section in enumerate(sections):
             report += str(section)  # Convert each section to a string and append it to the report
             if i < len(sections) - 1:
@@ -73,8 +134,19 @@ def read_and_analyze_file():
 
         gui.text.setText(report)
 
+    #create a text file for the repository
+    file_count = 1
+    for path in os.listdir("./repository"):
+        if os.path.isfile(os.path.join("./repository" , path)):
+            file_count +=1
+    sn = str(file_count)
+    repo_file = "repository-"+ file_name + "-" + sn + ".txt"
+    with open (os.path.join( "./repository", repo_file), 'w') as f:
+        f.write(report)
+
+
 def save_report():
-    filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt);;All Files (*)")
+    filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt)")
     if filepath:  
         report = gui.text.toPlainText()  # Get text from the text widget
         with open(filepath, 'w', encoding='utf-8') as f:
