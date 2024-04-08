@@ -120,7 +120,8 @@ def read_and_analyze_file():
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
 
         header_count_total = sum(section.header_total for section in sections)
-        report = f"Total Number of Headers: {header_count_total}\n\n"
+        report = f"File Name: {file_name}\n\n"
+        report += f"Total Number of Headers: {header_count_total}\n\n"
         report += f"Total Number of Words: {all_word_count}\n\n"
         report += "-------------------------------\n\n"
         for i, section in enumerate(sections):
