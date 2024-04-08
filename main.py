@@ -30,7 +30,7 @@ def filetype_convert(md_input):
     
     #Error processing
     except FileNotFoundError:
-        print("Pandoc execution failed: Is pandoc installed?") 
+        print("Pandoc execution failed: Is pandoc installed? Try 'pandoc --version'") 
     except Exception as error:
         print(f"Error. File {md_input} failed due to: {error}")
         return None
@@ -71,13 +71,8 @@ def read_and_analyze_file():
         print("Folder %s created." % repo)
     else:
         print("Folder already exists.")
-<<<<<<< HEAD
 
     # If a file has been selected in the GUI...
-=======
-    
-    # If a has been selected in the GUI...
->>>>>>> 8b2746ee5994d26fd9e4aa69a5f2f4cfef1ac85b
     if filepath:
         '''
         Read an inputted Markdown file, then every time a header is detected in the file,
@@ -125,12 +120,7 @@ def read_and_analyze_file():
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
 
         header_count_total = sum(section.header_total for section in sections)
-<<<<<<< HEAD
         report = f"Total Number of Headers: {header_count_total}\n\n"
-=======
-        report = f"File Name: {file_name}\n\n"
-        report += f"Total Number of Headers: {header_count_total}\n\n"
->>>>>>> 8b2746ee5994d26fd9e4aa69a5f2f4cfef1ac85b
         report += f"Total Number of Words: {all_word_count}\n\n"
         report += "-------------------------------\n\n"
         for i, section in enumerate(sections):
@@ -155,7 +145,7 @@ def read_and_analyze_file():
 
 
 def save_report():
-    filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt);;All Files (*)")
+    filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt)")
     if filepath:  
         report = gui.text.toPlainText()  # Get text from the text widget
         with open(filepath, 'w', encoding='utf-8') as f:
