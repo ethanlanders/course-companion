@@ -66,14 +66,18 @@ def read_and_analyze_file():
 
     # Create a file Repository @auth ZE
     repo = './repository'
-
     if not os.path.exists(repo):
         os.makedirs(repo)
         print("Folder %s created." % repo)
     else:
         print("Folder already exists.")
+<<<<<<< HEAD
 
     # If a file has been selected in the GUI...
+=======
+    
+    # If a has been selected in the GUI...
+>>>>>>> 8b2746ee5994d26fd9e4aa69a5f2f4cfef1ac85b
     if filepath:
         '''
         Read an inputted Markdown file, then every time a header is detected in the file,
@@ -121,13 +125,14 @@ def read_and_analyze_file():
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
 
         header_count_total = sum(section.header_total for section in sections)
+<<<<<<< HEAD
         report = f"Total Number of Headers: {header_count_total}\n\n"
+=======
+        report = f"File Name: {file_name}\n\n"
+        report += f"Total Number of Headers: {header_count_total}\n\n"
+>>>>>>> 8b2746ee5994d26fd9e4aa69a5f2f4cfef1ac85b
         report += f"Total Number of Words: {all_word_count}\n\n"
-        report += ""  # Initialize the variable to build the report string
-        report += str(file_name) + "\n\n"
-        report += "-------------------------------\n"
-        report += str(file_path) + "\n\n"  # Add the file name to the report
-        report += "-------------------------------\n"
+        report += "-------------------------------\n\n"
         for i, section in enumerate(sections):
             report += str(section)  # Convert each section to a string and append it to the report
             if i < len(sections) - 1:
