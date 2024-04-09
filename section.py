@@ -1,57 +1,69 @@
-"""
-* We will probably want to create a count of the number of sub headers contained within the primary header
-  (7 level 2 headers contained in this level one header)
-* 
-"""
 import re
+from determine_language import CodeLanguageIdentifier
+
+
 class MarkdownSection:
-    # Initialize instance of class 
+    """
+    Represents a section of Markdown text with various methods to analyze its content.
+    """
+
     def __init__(self, heading, heading_level, raw_content):
+        """
+        Initialzes an instance of the MarkdownSection class.
+
+        Args:
+            heading (str): The heading/title of the Markdown section.
+            heading_level (int): The level of the heading (e.g. 1 for top-level, 2 for sub-section, ...)
+            raw_content (str): The raw Markdown content of the section.
+        """
         self.heading = heading
         self.heading_level = heading_level
         self.raw_content = raw_content
-        self.subsections = []  # List to hold subsections
-        self.header_total = 1
+        self.subsections = [] # List to hold subsections
+        self.header_total = 1 # Total number of headers in the section.
         
-
     def word_count(self):
+        """Counts the number of words in the raw content."""
         return len(self.raw_content.split())
 
     def sentence_count(self):
-        #adding additional punctuations to better count sentences, with whitespace following or new line character
+        """Counts the number of sentences in the raw content."""
         sentence_pattern = r'[.!?](\s+|$)'
-        #condition prevent counting new lines as sentences
         return len(re.findall(sentence_pattern, self.raw_content)) if self.raw_content.strip() else 0
 
     def paragraph_count(self):
-        # condition checks to see if p is empty after stripping new line characters, to avoid counting empty paragraph returns
+        """Counts the number of paragraphs in the raw content."""
+        
+        # Condition checks to see if p is empty after stripping new line characters to avoid counting empty paragraph returns
         paragraphs = [p for p in self.raw_content.split('\n\n') if p.strip()]
         return len(paragraphs)
     
     def inline_code_count(self):
-        # Regular expression to find inline code blocks
+        """Counts the number of inline code blocks in the raw content."""
         code_pattern = r'`[^`]+`'
         return len(re.findall(code_pattern, self.raw_content))
     
     def add_subsection(self, subsection):
+        """Adds a subsection to the current section."""
         self.subsections.append(subsection)
         self.header_total += 1
         
-    # Count the number of bold words
     def bold_count(self): 
+        """Counts the total number of bold words in the raw content."""
         bold_pattern = r'\*\*([^\*]+)\*\*'
         bold_matches = re.findall(bold_pattern, self.raw_content)
         bold_num = sum(len(word.split()) for word in bold_matches)
         return bold_num
         
-        
-    # Count the total number of headers
     def header_count(self):
+        """Counts the number of headers in the raw content."""
         header_pattern = r'^#+\s.*'
         header_num = re.findall(header_pattern, self.raw_content, flags=re.MULTILINE)
         return len(header_num)
     
     def italic_count(self): 
+        """Counts the nubmer of italicized words in the raw content"""
+
         # Regular expression to find italic markdown syntax
         italic_pattern = r'\*([^*]+)\*'
         # Find all matches of italic syntax in the markdown text
@@ -61,14 +73,17 @@ class MarkdownSection:
         return num_italics
     
     def block_quote_count(self):
-        #Set up the regex fora block quote @auth ZE
+        """Counts the number of block quotes in the raw content."""
+        # Set up the regex for a block quote.   @auth ZE
         quote_pattern=r'^>+\s.*'
-        #Find all block quotes and count them @auth ZE
+        # Find all block quotes and count them. @auth ZE
         quotes_num = re.findall(quote_pattern,self.raw_content, flags=re.MULTILINE)   
-        #return the number of block quotes.@auth ZE
+        # Return the number of block quotes.    @auth ZE
         return len(quotes_num)
    
     def list_count(self):
+        """Counts the number of lists in the raw content."""
+
         # Regular expression to find list markdown syntax
         list_pattern = r'^(\s*)(\*|\+|-|\d+\.)\s+'
         # Splitting content into lines to apply the pattern
@@ -86,14 +101,12 @@ class MarkdownSection:
                         current_list += 1         
                 else:
                     if current_list > 0:
-                        # If  current line not in a list add its length to the lists 
+                        # If current line not in a list add its length to the lists 
                         # reset the current list length
                         lists.append(current_list)
                       
                         current_list = 0
          
-        
-    
         # Additional check to see if the last list in the document was counted
         if current_list > 0:
             lists.append(current_list)
@@ -101,12 +114,12 @@ class MarkdownSection:
             
         return num_lists, lists
 
-    # Function to determine if a link is internal or external
     def is_internal_link(self, link):
+        """Determines if a link is internal or external"""
         return not link.startswith("http") # Check if the link does not start with "http"
 
-    # Function to extract and analyze hyperlinks
     def analyze_hyperlinks(self):
+        """Extracts and analyzes hyperlinks in the raw content."""
         internal_links = []
         external_links = []
 
@@ -191,26 +204,57 @@ class MarkdownSection:
 
 
 
-    # Print string of an instance of the class
+ 
+        
+
+    def analyze_code_blocks(self):
+        code_identifier = CodeLanguageIdentifier()
+        code_blocks = re.findall(r'```(.*?)```', self.raw_content, re.DOTALL)
+        code_languages = []
+
+        for block in code_blocks:
+            clean_block = block.strip()
+            identified_language = code_identifier.identify_language(clean_block)
+            code_languages.append(identified_language)
+
+        return code_blocks, code_languages
+
+        
     def __str__(self):
+        """Generates/prints a string representation of the MarkdownSection object/instance."""
         num_lists, list_lengths = self.list_count()
-        tab = '    ' * (self.heading_level - 1) #this adds an indent for each level subsection to create an         
+        tab = '    ' * (self.heading_level - 1)  # This adds an indent for each level subsection to create an
+        
+        # Analyze hyperlinks
+        internal_links, external_links = self.analyze_hyperlinks()
+        code_blocks, code_languages = self.analyze_code_blocks()
         section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
-                       f"{tab}* Words: {self.word_count_check()}\n"
-                       f"{tab}* Bold Words: {self.bold_count_check()}\n"
-                       f"{tab}* Sentences: {self.sentence_count_check()}\n"
-                       f"{tab}* Paragraphs: {self.paragraph_count_check()}\n"
-                       f"{tab}* Italics: {self.italic_count_check()}\n"
-                       f"{tab}* Inline Code Blocks: {self.inline_code_count_check()}\n"
-                       f"{tab}* Block Quotes: {self.block_quote_count_check()}\n"
-                       f"{tab}* Lists: {num_lists}\n")
-                       
-    
-        # Get the lengths of individual lists
+                    f"{tab}* Words: {self.word_count_check()}\n"
+                    f"{tab}* Bold Words: {self.bold_count_check()}\n"
+                    f"{tab}* Sentences: {self.sentence_count_check()}\n"
+                    f"{tab}* Paragraphs: {self.paragraph_count_check()}\n"
+                    f"{tab}* Italics: {self.italic_count_check()}\n"
+                    f"{tab}* Inline Code Blocks: {self.inline_code_count_check()}\n"
+                    f"{tab}* Block Quotes: {self.block_quote_count_check()}\n"
+                    f"{tab}* Internal Links: {'None' if not internal_links else internal_links}\n"
+                    f"{tab}* External Links: {'None' if not external_links else external_links}\n"
+                    f"{tab}* Lists: {num_lists}\n")
+        
+        # adding individual list length
         for i, length in enumerate(list_lengths, start=1):
             section_str += f"{tab}   - Length of List {i}: {length}\n"
-
-        # f"Internal Links in '{self.heading}': {self.internal_links}\n"
-        # f"External Links in '{self.heading}': {self.external_links}\n"
-
+        
+        section_str += f"{tab}* Code Blocks: {len(code_blocks)}\n"
+        
+        # adding code block languages
+        for i, language in enumerate(code_languages, start=1):
+            section_str += f"{tab}   - Code Block {i}: Language - {language}\n"
+        
         return section_str
+
+                       
+                       
+                       
+                       
+       
+    
