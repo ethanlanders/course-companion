@@ -140,52 +140,58 @@ class MarkdownSection:
     #functions below this line are check functions to make sure values are less than a certain number
     # Function that checks if word_count is greater than x
     def word_count_check(self):
-        if self.word_count() < 250:
+        x = 50
+        if self.word_count() < x:
             return self.word_count()
         else:
-            return "This section is long!"
+            return f"This section has {self.word_count()}, which is {self.word_count() - x} too much!"   
         
-    # function that checks if bold count is less than x
     def bold_count_check(self):
+        x = 50
         if self.bold_count() < 50:
             return self.bold_count()
         else:
-            return "This section has a lot of bolded words!"
+            return f"This section has {self.bold_count()}, which is {self.bold_count() - x} too much!"   
         
     # function that checks if sentence count is less than x
     def sentence_count_check(self):
-        if self.sentence_count() < 50:
+        x = 50
+        if self.sentence_count() < x:
             return self.sentence_count()
         else:
-            return "This section has to many sentences!"
+            return f"This section has {self.sentence_count()}, which is {self.sentence_count() - x} too much!"   
 
     # function that checks paragraph count is less than x
     def paragraph_count_check(self):
-        if self.paragraph_count() < 50:
+        x = 50
+        if self.paragraph_count() < x:
             return self.paragraph_count()
         else:
-            return "This section has to many paragraphs!"
+            return f"This section has {self.paragraph_count()}, which is {self.paragraph_count() - x} too much!"   
         
     # Function that checks itatlics count is less than x
     def italic_count_check(self):
-        if self.italic_count() < 50:
+        x = 50
+        if self.italic_count() < x:
             return self.italic_count()
         else:
-            return "This section has to many italicized words!"
+            return f"This section has {self.italic_count()}, which is {self.italic_count() - x} too much!"   
         
     #function that checks inline code blocks are less than x
     def inline_code_count_check(self):
-        if self.inline_code_count() < 50:
+        x = 50
+        if self.inline_code_count() < x:
             return self.inline_code_count()
         else:
-            return "This section has to many inline code blocks!"
+            return f"This section has {self.inline_code_count()}, which is {self.inline_code_count() - x} too much!"   
         
     #function that checks block quotes are less than x
     def block_quote_count_check(self):
-        if self.block_quote_count() < 50:
+        x = 50
+        if self.block_quote_count() < x:
             return self.block_quote_count()
         else:
-            return "This section has to many block quotes!"
+            return f"This section has {self.block_quote_count()}, which is {self.block_quote_count() - x} too much!"   
         
     #function that checks list count is less than 2
     def list_count_check(self):
