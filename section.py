@@ -159,23 +159,23 @@ class MarkdownSection:
         # Analyze hyperlinks
         internal_links, external_links = self.analyze_hyperlinks()
         code_blocks, code_languages = self.analyze_code_blocks()
-        section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
-                    f"{tab}* Words: {self.word_count()}\n"
-                    f"{tab}* Bold Words: {self.bold_count()}\n"
-                    f"{tab}* Sentences: {self.sentence_count()}\n"
-                    f"{tab}* Paragraphs: {self.paragraph_count()}\n"
-                    f"{tab}* Italics: {self.italic_count()}\n"
-                    f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
-                    f"{tab}* Block Quotes: {self.block_quote_count()}\n"
-                    f"{tab}* Internal Links: {'None' if not internal_links else internal_links}\n"
-                    f"{tab}* External Links: {'None' if not external_links else external_links}\n"
-                    f"{tab}* Lists: {num_lists}\n")
+        section_str = f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
+        section_str += ((f"{tab}* Words: {self.word_count()}\n" if self.word_count() > 0 else "") + \
+                    (f"{tab}* Bold Words: {self.bold_count()}\n" if self.bold_count() > 0 else "") + \
+                    (f"{tab}* Sentences: {self.sentence_count()}\n" if self.sentence_count() > 0 else "") + \
+                    (f"{tab}* Paragraphs: {self.paragraph_count()}\n" if self.paragraph_count() > 0 else "") + \
+                    (f"{tab}* Italics: {self.italic_count()}\n" if self.italic_count() > 0 else "") + \
+                    (f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n" if self.inline_code_count() > 0 else "") + \
+                    (f"{tab}* Block Quotes: {self.block_quote_count()}\n" if self.block_quote_count() > 0 else "") + \
+                    (f"{tab}* Internal Links: {internal_links}\n" if internal_links else "") + \
+                    (f"{tab}* External Links: {external_links}\n" if external_links else "") + \
+                    (f"{tab}* Lists: {num_lists}\n" if num_lists > 0 else ""))
         
         # adding individual list length
         for i, length in enumerate(list_lengths, start=1):
             section_str += f"{tab}   - Length of List {i}: {length}\n"
         
-        section_str += f"{tab}* Code Blocks: {len(code_blocks)}\n"
+        section_str += (f"{tab}* Code Blocks: {len(code_blocks)}\n" if len(code_blocks) > 0 else "")
         
         # adding code block languages
         for i, language in enumerate(code_languages, start=1):
