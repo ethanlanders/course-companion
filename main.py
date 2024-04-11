@@ -4,8 +4,7 @@ from gui import GUI
 from section import MarkdownSection
 import os
 import datetime
-import json
-import pickle
+
 import subprocess
 
 # Pandoc file type conversion
@@ -155,10 +154,11 @@ def save_report():
             f.write(report)
 
 def retrieve_previous_report():
-    sections = []
-    filepath, _ = QFileDialog.getPreviousReport(filter="Text Files (*.txt)")
-    with open(filepath, "r") as sections_in:
-        
+    filepath, _ = QFileDialog.getOpenFileName(filter="Text Files (*.txt)")
+    if filepath:
+        with open(filepath,'r') as f:
+            prev_report = f.read()
+    gui.text.setText(prev_report)
     
         
 if __name__ == "__main__":
@@ -166,7 +166,7 @@ if __name__ == "__main__":
     gui = GUI()
     gui.select_button.clicked.connect(read_and_analyze_file)
     gui.save_button.clicked.connect(save_report)
-    gui.history_button.clicked.connect(save_report)
+    gui.history_button.clicked.connect(retrieve_previous_report)
     gui.styles()
     gui.show()
     sys.exit(app.exec_())
