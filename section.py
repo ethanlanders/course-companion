@@ -104,9 +104,14 @@ class MarkdownSection:
         return num_lists, lists
     
     #Function to balance out the word count
-    def balance_word_counts(sections):
+    def check_stdev_word_counts(sections):
         total_words = sum(sections.values())
-        
+        print(total_words)
+        word_counts = list(sections.values())
+        print(word_counts)
+        return statistics.stdev(word_counts)
+
+
     # Function to determine if a link is internal or external
     def is_internal_link(self, link):
         return not link.startswith("http") # Check if the link does not start with "http"
