@@ -138,7 +138,13 @@ class MarkdownSection:
         return internal_links, external_links
     
  
-        
+    def check_stdev_word_counts(sections):
+        total_words = sum(sections.values())
+        print(total_words)
+        word_counts = list(sections.values())
+        print(word_counts)
+        return statistics.stdev(word_counts)
+ 
 
     def analyze_code_blocks(self):
         code_identifier = CodeLanguageIdentifier()
