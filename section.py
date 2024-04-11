@@ -134,9 +134,6 @@ class MarkdownSection:
                 external_links.append(link)
 
         return internal_links, external_links
-    
- 
-        
 
     def analyze_code_blocks(self):
         code_identifier = CodeLanguageIdentifier()
@@ -150,7 +147,6 @@ class MarkdownSection:
 
         return code_blocks, code_languages
 
-        
     def __str__(self):
         """Generates/prints a string representation of the MarkdownSection object/instance."""
         num_lists, list_lengths = self.list_count()
@@ -159,17 +155,18 @@ class MarkdownSection:
         # Analyze hyperlinks
         internal_links, external_links = self.analyze_hyperlinks()
         code_blocks, code_languages = self.analyze_code_blocks()
-        section_str = (f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
-                    f"{tab}* Words: {self.word_count()}\n"
-                    f"{tab}* Bold Words: {self.bold_count()}\n"
-                    f"{tab}* Sentences: {self.sentence_count()}\n"
-                    f"{tab}* Paragraphs: {self.paragraph_count()}\n"
-                    f"{tab}* Italics: {self.italic_count()}\n"
-                    f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
-                    f"{tab}* Block Quotes: {self.block_quote_count()}\n"
-                    f"{tab}* Internal Links: {'None' if not internal_links else internal_links}\n"
-                    f"{tab}* External Links: {'None' if not external_links else external_links}\n"
-                    f"{tab}* Lists: {num_lists}\n")
+        section_str = (
+            f"{tab}Heading Level {self.heading_level} Title: {self.heading}\n"
+            f"{tab}* Words: {self.word_count()}\n"
+            f"{tab}* Bold Words: {self.bold_count()}\n"
+            f"{tab}* Sentences: {self.sentence_count()}\n"
+            f"{tab}* Paragraphs: {self.paragraph_count()}\n"
+            f"{tab}* Italics: {self.italic_count()}\n"
+            f"{tab}* Inline Code Blocks: {self.inline_code_count()}\n"
+            f"{tab}* Block Quotes: {self.block_quote_count()}\n"
+            f"{tab}* Internal Links: {'None' if not internal_links else internal_links}\n"
+            f"{tab}* External Links: {'None' if not external_links else external_links}\n"
+            f"{tab}* Lists: {num_lists}\n")
         
         # adding individual list length
         for i, length in enumerate(list_lengths, start=1):
@@ -180,12 +177,20 @@ class MarkdownSection:
         # adding code block languages
         for i, language in enumerate(code_languages, start=1):
             section_str += f"{tab}   - Code Block {i}: Language - {language}\n"
-        
-        return section_str
 
-                       
-                       
-                       
-                       
-       
-    
+        # Print flag to user if there are more hyperlinks than words in section
+        if (len(internal_links) + len(external_links)) > self.word_count():
+            section_str += f"There are too many hyperlinks in your input document, considering removing some.\n\n"
+        
+        italics_words_ratio = self.italic_count()/self.word_count()
+        bold_words_ratio = self.bold_count()/self.word_count()
+
+        # Print flag to user if italics/word ratio is over 50%
+        if italics_words_ratio > 0.5:
+            section_str += f"There are too many italicized words in this section.\n\n"
+
+        # Print flag to user if bold_words/total_word ratio is over 50%
+        if bold_words_ratio > 0.5:
+            section_str += f"There are too many bolded words in this section.\n\n"
+
+        return section_str
