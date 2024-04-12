@@ -100,11 +100,6 @@ def read_and_analyze_file():
         
         filtered_input = filter_backslash_lines(markdown_input)
 
-        for line in filtered_input:       # 
-            if not line.startswith("#"):
-                all_content += line if line.strip() != '' else '\n\n'
-        all_word_count =  len(all_content.split())
-
         for line in filtered_input:
             if line.startswith("#"):
                 if current_heading is not None:
@@ -119,11 +114,33 @@ def read_and_analyze_file():
         if current_heading is not None:
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
 
-        header_count_total = sum(section.header_total for section in sections)
-        report = f"File Name: {file_name}\n\n"
+        # Calculate total count of variables
+        word_count_total        = sum(section.word_count() for section in sections)
+        bold_count_total        = sum(section.bold_count() for section in sections)
+        italic_count_total      = sum(section.italic_count() for section in sections)
+        header_count_total      = sum(section.header_total for section in sections)
+        # hyperlink_count_total   = sum()
+
+        report  = f"Input File Name: {file_name}\n\n"
         report += f"Total Number of Headers: {header_count_total}\n\n"
-        report += f"Total Number of Words: {all_word_count}\n\n"
+        report += f"Total Number of Words: {word_count_total}\n\n"
+        report += f"Total Bold Count: {bold_count_total}\n"
+        report += f"Total Italic Count: {italic_count_total}\n\n"
+
+        if word_count_total > 0:
+            italics_words_ratio = italic_count_total/word_count_total
+            bold_words_ratio = bold_count_total/word_count_total
+
+            # Aribitrary ratio set
+            if italics_words_ratio > 0.01:
+                report += f"**ALERT** There are too many italicized words in this document.\n"
+
+            # Arbitrary ratio set
+            if bold_words_ratio > 0.01:
+                report += f"**ALERT** There are too many bolded words in this document.\n\n"
+
         report += "-------------------------------\n\n"
+
         for i, section in enumerate(sections):
             report += str(section)  # Convert each section to a string and append it to the report
             if i < len(sections) - 1:
@@ -143,7 +160,6 @@ def read_and_analyze_file():
     repo_file = "repository-"+ file_name + "-" + sn + ".txt"
     with open (os.path.join( "./repository", repo_file), 'w') as f:
         f.write(report)
-
 
 def save_report():
     filepath, _ = QFileDialog.getSaveFileName(filter="Text Files (*.txt)")

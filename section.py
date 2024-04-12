@@ -182,15 +182,16 @@ class MarkdownSection:
         if (len(internal_links) + len(external_links)) > self.word_count():
             section_str += f"There are too many hyperlinks in your input document, considering removing some.\n\n"
         
-        italics_words_ratio = self.italic_count()/self.word_count()
-        bold_words_ratio = self.bold_count()/self.word_count()
+        if self.word_count() > 0:
+            italics_words_ratio = self.italic_count()/self.word_count()
+            bold_words_ratio = self.bold_count()/self.word_count()
 
-        # Print flag to user if italics/word ratio is over 50%
-        if italics_words_ratio > 0.5:
-            section_str += f"There are too many italicized words in this section.\n\n"
+            # Print flag to user if italics/word ratio is over 50%
+            if italics_words_ratio > 0.30:
+                section_str += f"There are too many italicized words in this section.\n\n"
 
-        # Print flag to user if bold_words/total_word ratio is over 50%
-        if bold_words_ratio > 0.5:
-            section_str += f"There are too many bolded words in this section.\n\n"
+            # Print flag to user if bold_words/total_word ratio is over 50%
+            if bold_words_ratio > 0.10:
+                section_str += f"There are too many bolded words in this section.\n\n"
 
         return section_str
