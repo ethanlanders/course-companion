@@ -1,10 +1,10 @@
 import sys
+from typing_extensions import Self
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from gui import GUI
 from section import MarkdownSection
 import os
 import datetime
-
 import subprocess
 
 # Pandoc file type conversion
@@ -56,8 +56,7 @@ def read_and_analyze_file():
     heading_level = 0  
     heading_level_count = [0]*7  
     
-    filepath, _ = QFileDialog.getOpenFileName(
-        filter="Supported Files (*.txt *.md *.docx *.html *.rtf)")
+    filepath, _ = QFileDialog.getOpenFileName(directory='./test files', filter="Supported Files (*.txt *.md *.docx *.html *.rtf)")
 
     # Option 1 prints the whole path.@auth ZE
     file_path = filepath, _
@@ -153,13 +152,13 @@ def save_report():
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(report)
 
+#I need to work on this a bit more
 def retrieve_previous_report():
-    repo = './repository'
-    if os.path.exists(repo):
-        filepath, _ = QFileDialog.getOpenFileName(filter="Text Files (*.txt)")
-        if filepath:
-            with open(filepath,'r') as f:
-                prev_report = f.read()
+    #It turns out that it has to be in the directory, without the filter
+    filepath, _ = QFileDialog.getOpenFileName(directory='./repository')
+    if filepath:
+        with open(filepath,'r') as f:
+            prev_report = f.read()
     gui.text.setText(prev_report)
     
         
