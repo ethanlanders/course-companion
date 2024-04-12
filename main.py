@@ -154,10 +154,12 @@ def save_report():
             f.write(report)
 
 def retrieve_previous_report():
-    filepath, _ = QFileDialog.getOpenFileName(filter="Text Files (*.txt)")
-    if filepath:
-        with open(filepath,'r') as f:
-            prev_report = f.read()
+    repo = './repository'
+    if os.path.exists(repo):
+        filepath, _ = QFileDialog.getOpenFileName(filter="Text Files (*.txt)")
+        if filepath:
+            with open(filepath,'r') as f:
+                prev_report = f.read()
     gui.text.setText(prev_report)
     
         
