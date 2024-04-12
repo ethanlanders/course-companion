@@ -134,9 +134,6 @@ class MarkdownSection:
                 external_links.append(link)
 
         return internal_links, external_links
-    
- 
-        
 
     def analyze_code_blocks(self):
         code_identifier = CodeLanguageIdentifier()
@@ -150,7 +147,6 @@ class MarkdownSection:
 
         return code_blocks, code_languages
 
-        
     def __str__(self):
         """Generates/prints a string representation of the MarkdownSection object/instance."""
         num_lists, list_lengths = self.list_count()
@@ -180,12 +176,21 @@ class MarkdownSection:
         # adding code block languages
         for i, language in enumerate(code_languages, start=1):
             section_str += f"{tab}   - Code Block {i}: Language - {language}\n"
-        
-        return section_str
 
-                       
-                       
-                       
-                       
-       
-    
+        # Print flag to user if there are more hyperlinks than words in section
+        if (len(internal_links) + len(external_links)) > self.word_count():
+            section_str += f"There are too many hyperlinks in your input document, considering removing some.\n\n"
+        
+        if self.word_count() > 0:
+            italics_words_ratio = self.italic_count()/self.word_count()
+            bold_words_ratio = self.bold_count()/self.word_count()
+
+            # Print flag to user if italics/word ratio is over 50%
+            if italics_words_ratio > 0.30:
+                section_str += f"There are too many italicized words in this section.\n\n"
+
+            # Print flag to user if bold_words/total_word ratio is over 50%
+            if bold_words_ratio > 0.10:
+                section_str += f"There are too many bolded words in this section.\n\n"
+
+        return section_str
