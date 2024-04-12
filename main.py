@@ -119,18 +119,19 @@ def read_and_analyze_file():
         if current_heading is not None:
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
 
+        #Top of report
         header_count_total = sum(section.header_total for section in sections)
         report = f"File Name: {file_name}\n\n"
         report += f"Total Number of Headers: {header_count_total}\n\n"
         report += f"Total Number of Words: {all_word_count}\n\n"
-        report += "-------------------------------\n\n"
+        for i in range(len(heading_level_count)):
+            report += f'Total level {i+1} headers : {heading_level_count[i]}\n' if heading_level_count[i] != 0 else ''
+        report += "\n-------------------------------\n\n"
+       
         for i, section in enumerate(sections):
             report += str(section)  # Convert each section to a string and append it to the report
             if i < len(sections) - 1:
                 report += '\n\n'  # Add a newline between sections
-
-        for i in range(len(heading_level_count)):
-            report += f'Heading level {i+1} : {heading_level_count[i]}\n'
 
         gui.text.setText(report)
 
