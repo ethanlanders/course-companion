@@ -113,7 +113,6 @@ def read_and_analyze_file():
         if current_heading is not None:
             sections.append(MarkdownSection(current_heading, heading_level, current_content))
 
-        #Top of report
         # Calculate total count of variables
         word_count_total        = sum(section.word_count() for section in sections)
         bold_count_total        = sum(section.bold_count() for section in sections)
@@ -121,11 +120,15 @@ def read_and_analyze_file():
         header_count_total      = sum(section.header_total for section in sections)
         # hyperlink_count_total   = sum()
 
+        #Top of report
         report  = f"Input File Name: {file_name}\n\n"
         report += f"Total Number of Headers: {header_count_total}\n\n"
         report += f"Total Number of Words: {word_count_total}\n\n"
         report += f"Total Bold Count: {bold_count_total}\n"
         report += f"Total Italic Count: {italic_count_total}\n\n"
+        for i in range(len(heading_level_count)):
+            report += f'Total level {i+1} headers : {heading_level_count[i]}\n' if heading_level_count[i] != 0 else ''
+        report += "\n-------------------------------\n\n"
 
         if word_count_total > 0:
             italics_words_ratio = italic_count_total/word_count_total
@@ -138,11 +141,6 @@ def read_and_analyze_file():
             # Arbitrary ratio set
             if bold_words_ratio > 0.01:
                 report += f"**ALERT** There are too many bolded words in this document.\n\n"
-
-        for i in range(len(heading_level_count)):
-            report += f'Total level {i+1} headers : {heading_level_count[i]}\n' if heading_level_count[i] != 0 else ''
-        report += "\n-------------------------------\n\n"
-
        
         for i, section in enumerate(sections):
             report += str(section)  # Convert each section to a string and append it to the report
