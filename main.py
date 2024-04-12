@@ -1,5 +1,4 @@
 import sys
-from typing_extensions import Self
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from gui import GUI
 from section import MarkdownSection
