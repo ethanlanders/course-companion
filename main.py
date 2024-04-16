@@ -127,21 +127,24 @@ def read_and_analyze_file():
         report += f"Total Bold Count: {bold_count_total}\n"
         report += f"Total Italic Count: {italic_count_total}\n\n"
         for i in range(len(heading_level_count)):
-            report += f'Total level {i+1} headers : {heading_level_count[i]}\n' if heading_level_count[i] != 0 else ''
-        report += "\n-------------------------------\n\n"
+            report += f'Total Level {i+1} Headers : {heading_level_count[i]}\n' if heading_level_count[i] != 0 else ''
+            
+        report += f'\n'
 
         if word_count_total > 0:
             italics_words_ratio = italic_count_total/word_count_total
             bold_words_ratio = bold_count_total/word_count_total
 
             # Aribitrary ratio set
-            if italics_words_ratio > 0.01:
+            if italics_words_ratio > 0.08:
                 report += f"**ALERT** There are too many italicized words in this document.\n"
 
             # Arbitrary ratio set
-            if bold_words_ratio > 0.01:
+            if bold_words_ratio > 0.08:
                 report += f"**ALERT** There are too many bolded words in this document.\n\n"
        
+        report += "-------------------------------\n\n"
+
         for i, section in enumerate(sections):
             report += str(section)  # Convert each section to a string and append it to the report
             if i < len(sections) - 1:
