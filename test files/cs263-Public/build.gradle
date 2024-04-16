@@ -1,0 +1,10 @@
+apply plugin: 'edu.odu.cs.cwm.Group'
+
+subprojects {
+    project.documents {
+        formats = ['scroll','slides']
+        //formats = ['scroll']
+        support fileTree('.').include('**/*.pdf').include('*.py').include('*.svg')
+    }
+}
+
