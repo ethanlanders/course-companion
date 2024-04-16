@@ -1,0 +1,268 @@
+﻿1
+00:00:01,067 --> 00:00:05,305
+Welcome to CS 263 Python for Programmers.
+
+2
+00:00:05,305 --> 00:00:09,275
+This course is intended as an introduction
+to Python for students already familiar
+
+3
+00:00:09,275 --> 00:00:13,546
+with another language
+with an emphasis on C++ over Java.
+
+4
+00:00:13,613 --> 00:00:17,984
+The overall focus of this course
+is to prepare to teach you how to apply
+
+5
+00:00:17,984 --> 00:00:22,989
+your existing knowledge
+to write Python code. Tools of the trade.
+
+6
+00:00:23,056 --> 00:00:28,728
+In this course, we all use many tools,
+including vim, Git, unit testing / test driven development,
+
+7
+00:00:28,728 --> 00:00:32,866
+pydoc, tox, pycode style / pylint
+
+8
+00:00:32,899 --> 00:00:37,804
+PlantUML and SDEdit
+
+9
+00:00:37,904 --> 00:00:38,605
+A few tools
+
+10
+00:00:38,605 --> 00:00:41,608
+will be used heavily for office hours
+and questions.
+
+11
+00:00:41,708 --> 00:00:46,312
+Zoom for office
+hours, email and questions. Yes,
+
+12
+00:00:46,479 --> 00:00:50,950
+I do realize that I have listed questions
+as a tool for answering questions.
+
+13
+00:00:51,017 --> 00:00:53,953
+As much as I would like
+to make a joke about recursion,
+
+14
+00:00:53,953 --> 00:00:57,757
+this is actually an instance
+of the Socratic method.
+
+15
+00:00:57,857 --> 00:00:59,626
+Lecture examples.
+
+16
+00:00:59,626 --> 00:01:02,629
+Most lectures
+will be based on the review examples.
+
+17
+00:01:02,695 --> 00:01:08,635
+If you are curious, take a look
+at the commit history on GitHub.
+
+18
+00:01:08,701 --> 00:01:10,904
+The example code is not stagnant.
+
+19
+00:01:10,904 --> 00:01:12,906
+It is updated every semester.
+
+20
+00:01:12,906 --> 00:01:16,976
+Questions one: Do I need to know all
+the tools listed in tools of the trade?
+
+21
+00:01:17,210 --> 00:01:20,447
+No, you do not need to know
+all the tools.
+
+22
+00:01:20,480 --> 00:01:22,048
+Two, why do you use them?
+
+23
+00:01:22,048 --> 00:01:23,750
+The short answer is that Vim works.
+
+24
+00:01:23,750 --> 00:01:28,621
+I can write code quickly, compile and run
+code and switch between languages.
+
+25
+00:01:28,688 --> 00:01:30,857
+More importantly,
+I can do everything completely
+
+26
+00:01:30,857 --> 00:01:33,860
+from the keyboard without the mouse.
+
+27
+00:01:33,960 --> 00:01:35,095
+Three.
+
+28
+00:01:35,095 --> 00:01:36,229
+What is your favorite language?
+
+29
+00:01:36,229 --> 00:01:39,232
+It is currently a tie
+between python and rust,
+
+30
+00:01:39,432 --> 00:01:44,604
+although it is currently python,
+at least for today.
+
+31
+00:01:44,671 --> 00:01:45,605
+Four.
+
+32
+00:01:45,605 --> 00:01:49,542
+Can I ask you about a topic
+not covered in lecture? Yes.
+
+33
+00:01:49,609 --> 00:01:50,043
+Five.
+
+34
+00:01:50,043 --> 00:01:51,511
+Who is Raymond Hettinger?
+
+35
+00:01:51,511 --> 00:01:53,780
+Raymond Hettinger
+is one of the Python core developers.
+
+36
+00:01:53,780 --> 00:01:58,251
+He is known for his amazing
+python talks slash lectures
+
+37
+00:01:58,318 --> 00:02:02,188
+beginning of the semester concerns
+
+38
+00:02:02,255 --> 00:02:05,325
+you will hear me discuss
+and reference topics from various courses,
+
+39
+00:02:05,325 --> 00:02:09,629
+including CS 330 Object
+oriented design and programing.
+
+40
+00:02:09,729 --> 00:02:13,199
+CS 361 Data structures and algorithms,
+
+41
+00:02:13,299 --> 00:02:17,704
+CS 381 discrete structures and CS 417
+
+42
+00:02:17,704 --> 00:02:21,641
+Computational methods and software.
+
+43
+00:02:21,741 --> 00:02:23,743
+Every semester, a few students end up
+
+44
+00:02:23,743 --> 00:02:27,013
+terrified that they have missed
+a required prerequisite course.
+
+45
+00:02:27,080 --> 00:02:28,748
+Before you start second guessing yourself,
+
+46
+00:02:28,748 --> 00:02:31,751
+take a look at the Prerequisites
+section of the syllabus.
+
+47
+00:02:31,751 --> 00:02:35,088
+If a course is not listed
+as a prerequisite, you are not expected
+
+48
+00:02:35,088 --> 00:02:38,358
+to have completed it.
+
+49
+00:02:38,424 --> 00:02:40,393
+Why mention other courses?
+
+50
+00:02:40,393 --> 00:02:42,595
+Computer science is a broad field.
+
+51
+00:02:42,595 --> 00:02:45,231
+There are many connections
+between topics and concepts.
+
+52
+00:02:45,231 --> 00:02:48,168
+One of the biggest
+mistakes anyone can make
+
+53
+00:02:48,234 --> 00:02:50,870
+is to
+treat a course as existing in a vacuum.
+
+54
+00:02:50,870 --> 00:02:53,840
+This is especially true of teachers
+and students.
+
+55
+00:02:53,840 --> 00:02:55,108
+Remember two things.
+
+56
+00:02:55,108 --> 00:02:58,478
+One, one of our goals is to learn
+how to see these connections
+
+57
+00:02:58,478 --> 00:03:04,050
+and use them to solidify understanding
+in this course and other courses.
+
+58
+00:03:04,150 --> 00:03:06,986
+I enjoy computer science,
+including this course, and I have a
+
+59
+00:03:06,986 --> 00:03:08,354
+penchant to get carried away.
