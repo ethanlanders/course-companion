@@ -40,7 +40,7 @@ class MarkdownSection:
     
     def inline_code_count(self):
         """Counts the number of inline code blocks in the raw content."""
-        code_pattern = r'`[^`]+`'
+        code_pattern = r'(?<!`)`([^`]+)`(?!`)'
         return len(re.findall(code_pattern, self.raw_content))
     
     def add_subsection(self, subsection):
