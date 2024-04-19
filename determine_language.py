@@ -11,7 +11,7 @@ class CodeLanguageIdentifier:
     def __init__(self):
         self.languages_patterns = {
             #'Python': ['def ', 'import ', 'from ', 'class ', ':', 'print(', 'lambda '],
-            'Python': ['def ', 'import ', 'from ', 'class ', 'print(', 'lambda '],
+            'Python': ['def ', 'import ', 'from ', 'class ', r'(?<!:):(?!:)', 'print(', 'lambda '],
             'JavaScript': ['function ', '=>', 'var ', 'let ', 'const ', 'console.log('],
             'Java': ['public class', 'public static void main', 'import java.', 'new '],
             'C++': ['#include ', 'int main()', 'std::', 'cout <<', 'cin >>'],
