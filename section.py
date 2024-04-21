@@ -140,11 +140,26 @@ class MarkdownSection:
         code_blocks = re.findall(r'```(.*?)```', self.raw_content, re.DOTALL)
         code_languages = []
 
-        for block in code_blocks:
-            clean_block = block.strip()
-            identified_language = code_identifier.identify_language(clean_block)
-            code_languages.append(identified_language)
+        # List of languages to check for
+        languages_to_check = ["python", "jd", "java", "cpp", "rust", "kotlin"]
 
+
+        if code_blocks:
+            for block in code_blocks:
+                first_block = block
+                # Split the first block by spaces and take the first word
+                first_word = first_block.split()[0].lower()
+                # Check if the first word is in the list of languages
+                if first_word in languages_to_check:
+                    language = first_word
+                    code_languages.append(language)
+                else:
+                    clean_block = block.strip()
+                    if code_identifier.identify_language(clean_block) == "Unknown":
+                        identified_language = "Not explicitly stated, unable to detect."
+                    else:
+                        identified_language = (f"Not explicitly stated. Best guess: {code_identifier.identify_language(clean_block).capitalize()}")
+                    code_languages.append(identified_language)
         return code_blocks, code_languages
 
     def __str__(self):
@@ -176,7 +191,7 @@ class MarkdownSection:
         
         # adding code block languages
         for i, language in enumerate(code_languages, start=1):
-            section_str += f"{tab}   - Code Block {i}: Language - {language}\n"
+            section_str += f"{tab}   - Code Block {i}: Language - {language.capitalize()}\n"
 
         # Print flag to user if there are more hyperlinks than words in section
         if (len(internal_links) + len(external_links)) > self.word_count():
