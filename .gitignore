@@ -2,6 +2,7 @@
 #from being pushed to github to stop mass file clutter 
 #every time we run an analysis
 /repository/
+repository/
 
 #stray pycache generation
 *.pyc
