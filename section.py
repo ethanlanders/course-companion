@@ -191,9 +191,30 @@ class MarkdownSection:
         
         return section_str
 
-                       
-                       
-                       
-                       
-       
-    
+    def list_detection(self):
+        """ Detection to see if a list has not ended """
+        list_pattern = list_pattern = r'^(\s*)(\*|\+|-|\d+\.)\s+'
+        lines = self.raw_content.split('\n')
+
+        num_lists = 0
+        current_list_length = 0
+        list_length = []
+        in_list = False
+
+        for line in lines:
+            if re.match(list_pattern, line):
+                if not in_list:
+                    in_list = True 
+                    current_list_length = 1
+            else:
+                if in_list:
+    #Detection idea was a problem determined before
+    #ChatGPT is to be credited for the else statement
+                    list_length.append(current_list_length)
+                    num_lists += 1
+                    in_list = False
+    #Detection code end
+        if in_list:
+            list_length.append(current_list_length)
+            num_lists += 1
+        return num_lists, list_length
