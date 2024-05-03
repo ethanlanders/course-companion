@@ -4,7 +4,7 @@ CS410/CS411W Team Gold - Old Dominion University
 
 Professor Thomas J. Kennedy
 
-[Course Companion Website](https://ethanlanders.github.io/TeamGoldCS411W/)
+[Course Companion Website](https://ethanlanders.github.io/Course-Companion/)
 
 ## Team
 * Zachery Elledge
