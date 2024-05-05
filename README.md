@@ -33,7 +33,8 @@ Course Companion is a powerful tool designed to help educators improve the acces
 Once the analysis is complete, Course Companion generates a detailed report containing the analysis while outlining the structure of the document, header levels, and header titles.
 
 ## Key Features
-- Document analysis for course materials
+- Navigable GUI
+- Document analysis for course materials in various file types
 - Accessibility suggestions for educators
 - Report generation for easy review and reference
 - View and save previously generated reports
