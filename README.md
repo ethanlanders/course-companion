@@ -6,7 +6,7 @@ Team Gold
 
 Semesters: Fall 2023, Spring 2024
 
-[Course Companion Website](https://ethanlanders.github.io/Course-Companion/)
+[Course Companion Website](https://ethanlanders.github.io/course-companion/)
 
 ## Team Members
 - Zachery Elledge
